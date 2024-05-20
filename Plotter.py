@@ -47,6 +47,7 @@ def stdevPlots (path, data_selection):
             print('Error: Only str and int datatypes are allowed in the data_selection list')
             return
 
+    #Plot selected columns with corresponding 1 standard deviations bounds
     if output_columns == []:
         print('Error: No data selected')
         return
