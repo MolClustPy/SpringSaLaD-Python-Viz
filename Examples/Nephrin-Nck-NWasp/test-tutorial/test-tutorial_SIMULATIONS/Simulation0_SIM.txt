@@ -1,0 +1,162 @@
+*** TIME INFORMATION ***
+Total time: 1.00E-2
+dt: 1.00E-8
+dt_spring: 1.00E-9
+dt_data: 1.00E-4
+dt_image: 1.00E-4
+
+*** SYSTEM INFORMATION ***
+L_x: 0.1
+L_y: 0.1
+L_z_out: 0.01
+L_z_in: 0.09
+Partition Nx: 10
+Partition Ny: 10
+Partition Nz: 10
+
+*** MOLECULES ***
+
+MOLECULE: "Ligand" Extracellular Number 10 Site_Types 1 Total_Sites 1 Total_Links 0 is2D false
+{
+     TYPE: Name "L" Radius 2.00000 D 2.000 Color GREEN STATES "State0" 
+
+     SITE 0 : Extracellular : Initial State 'State0'
+          TYPE: Name "L" Radius 2.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 4.60000 z 6.60000 
+
+
+     Initial_Positions: Random
+}
+
+MOLECULE: "RK" Membrane Number 10 Site_Types 3 Total_Sites 3 Total_Links 2 is2D true
+{
+     TYPE: Name "Anchor" Radius 2.00000 D 2.000 Color GRAY STATES "Anchor" 
+     TYPE: Name "B" Radius 2.00000 D 1.000 Color RED STATES "State0" "State1" 
+     TYPE: Name "K" Radius 2.00000 D 1.000 Color CYAN STATES "on" "off" 
+
+     SITE 0 : Membrane : Initial State 'Anchor'
+          TYPE: Name "Anchor" Radius 2.00000 D 2.000 Color GRAY STATES "Anchor" 
+          x 0.00000 y 5.00000 z 15.00000 
+     SITE 1 : Intracellular : Initial State 'on'
+          TYPE: Name "K" Radius 2.00000 D 1.000 Color CYAN STATES "on" "off" 
+          x 0.00000 y 5.00000 z 20.00000 
+     SITE 2 : Extracellular : Initial State 'State0'
+          TYPE: Name "B" Radius 2.00000 D 1.000 Color RED STATES "State0" "State1" 
+          x 0.00000 y 5.00000 z 10.00000 
+
+     LINK: Site 0 ::: Site 1
+     LINK: Site 0 ::: Site 2
+
+     Initial_Positions: Random
+}
+
+MOLECULE: "Substrate" Intracellular Number 10 Site_Types 1 Total_Sites 1 Total_Links 0 is2D false
+{
+     TYPE: Name "S" Radius 1.00000 D 1.000 Color RED STATES "u" "p" 
+
+     SITE 0 : Intracellular : Initial State 'u'
+          TYPE: Name "S" Radius 1.00000 D 1.000 Color RED STATES "u" "p" 
+          x 0.00000 y 4.00000 z 4.00000 
+
+
+     Initial_Positions: Random
+}
+
+*** MOLECULE FILES ***
+
+MOLECULE: Ligand null
+MOLECULE: RK null
+MOLECULE: Substrate null
+
+*** CREATION/DECAY REACTIONS ***
+
+'Ligand' : kcreate 0.0 kdecay 0.0
+'RK' : kcreate 0.0 kdecay 0.0
+'Substrate' : kcreate 0.0 kdecay 0.0
+
+*** STATE TRANSITION REACTIONS ***
+
+
+*** ALLOSTERIC REACTIONS ***
+
+
+*** BIMOLECULAR BINDING REACTIONS ***
+
+
+*** MOLECULE COUNTERS ***
+
+'Ligand' : Measure Total Free Bound 
+'RK' : Measure Total Free Bound 
+'Substrate' : Measure Total Free Bound 
+
+*** STATE COUNTERS ***
+
+'Ligand' : 'L' : 'State0' : Measure Total Free Bound 
+'RK' : 'Anchor' : 'Anchor' : Measure Total Free Bound 
+'RK' : 'B' : 'State0' : Measure Total Free Bound 
+'RK' : 'B' : 'State1' : Measure Total Free Bound 
+'RK' : 'K' : 'on' : Measure Total Free Bound 
+'RK' : 'K' : 'off' : Measure Total Free Bound 
+'Substrate' : 'S' : 'u' : Measure Total Free Bound 
+'Substrate' : 'S' : 'p' : Measure Total Free Bound 
+
+*** BOND COUNTERS ***
+
+
+*** SITE PROPERTY COUNTERS ***
+
+'Ligand' Site 0 :  Track Properties true
+'RK' Site 0 :  Track Properties true
+'RK' Site 1 :  Track Properties true
+'RK' Site 2 :  Track Properties true
+'Substrate' Site 0 :  Track Properties true
+
+*** CLUSTER COUNTERS ***
+
+Track_Clusters: false
+
+*** SYSTEM ANNOTATIONS ***
+
+
+*** MOLECULE ANNOTATIONS ***
+
+Annotation: 'Ligand'
+{
+}
+
+Annotation: 'RK'
+{
+}
+
+Annotation: 'Substrate'
+{
+}
+
+*** REACTION ANNOTATIONS ***
+
+
+*** SIMULATION STATE ***
+
+Runs: 1
+Parallel: false
+SimultaneousRuns: 1
+Aborted: false
+IsRunning: true
+HasResults: false
+RunOnCluster: false
+
+*** PROCESSOR FILES ***
+
+MoleculeAverages: 'null'
+BondAverages: 'null'
+StateAverages: 'null'
+RunningTimes: 'null'
+
+*** RAW DATA FILES ***
+
+'null'
+
+*** SITE DATA FILES ***
+
+null
+

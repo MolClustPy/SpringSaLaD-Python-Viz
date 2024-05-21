@@ -1,0 +1,228 @@
+*** TIME INFORMATION ***
+Total time: 1.00E-2
+dt: 1.00E-8
+dt_spring: 1.00E-9
+dt_data: 1.00E-4
+dt_image: 1.00E-4
+
+*** SYSTEM INFORMATION ***
+L_x: 0.1
+L_y: 0.1
+L_z_out: 0.01
+L_z_in: 0.09
+Partition Nx: 10
+Partition Ny: 10
+Partition Nz: 10
+
+*** MOLECULES ***
+
+MOLECULE: "UnitCell" Intracellular Number 0 Site_Types 12 Total_Sites 12 Total_Links 31 is2D false
+{
+     TYPE: Name "Top" Radius 1.59690 D 1.000 Color RED STATES "st0" 
+     TYPE: Name "Bottom" Radius 1.59690 D 1.000 Color GREEN STATES "St0" 
+     TYPE: Name "Left" Radius 0.55010 D 1.000 Color MAROON STATES "St0" 
+     TYPE: Name "Right" Radius 0.55010 D 1.000 Color PURPLE STATES "St0" 
+     TYPE: Name "Front" Radius 0.55010 D 1.000 Color BLUE STATES "St0" 
+     TYPE: Name "Back" Radius 0.55010 D 1.000 Color SLATE_BLUE STATES "St0" 
+     TYPE: Name "Left_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+     TYPE: Name "Right_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+     TYPE: Name "Front_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+     TYPE: Name "Back_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+     TYPE: Name "Top_site" Radius 0.68680 D 1.000 Color LIGHT_GRAY STATES "Occ" "NonOcc" 
+     TYPE: Name "Bottom_site" Radius 0.68680 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+
+     SITE 0 : Intracellular : Initial State 'st0'
+          TYPE: Name "Top" Radius 1.59690 D 1.000 Color RED STATES "st0" 
+          x 0.00000 y 0.00000 z 3.22820 
+     SITE 1 : Intracellular : Initial State 'St0'
+          TYPE: Name "Bottom" Radius 1.59690 D 1.000 Color GREEN STATES "St0" 
+          x 0.00000 y 0.00000 z 0.00000 
+     SITE 2 : Intracellular : Initial State 'null'
+          TYPE: Name "Left" Radius 0.55010 D 1.000 Color MAROON STATES "St0" 
+          x 1.51640 y 0.00000 z 1.59690 
+     SITE 3 : Intracellular : Initial State 'null'
+          TYPE: Name "Right" Radius 0.55010 D 1.000 Color PURPLE STATES "St0" 
+          x -1.51640 y 0.00000 z 1.59690 
+     SITE 4 : Intracellular : Initial State 'St0'
+          TYPE: Name "Front" Radius 0.55010 D 1.000 Color BLUE STATES "St0" 
+          x 0.00000 y 1.51640 z 1.59690 
+     SITE 5 : Intracellular : Initial State 'St0'
+          TYPE: Name "Back" Radius 0.55010 D 1.000 Color SLATE_BLUE STATES "St0" 
+          x 0.00000 y -1.51640 z 1.59690 
+     SITE 6 : Intracellular : Initial State 'Occ'
+          TYPE: Name "Top_site" Radius 0.68680 D 1.000 Color LIGHT_GRAY STATES "Occ" "NonOcc" 
+          x 0.00000 y 0.00000 z 5.58070 
+     SITE 7 : Intracellular : Initial State 'NonOcc'
+          TYPE: Name "Bottom_site" Radius 0.68680 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+          x 0.00000 y 0.00000 z -2.34900 
+     SITE 8 : Intracellular : Initial State 'NonOcc'
+          TYPE: Name "Left_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+          x 2.58810 y 0.00000 z 1.59690 
+     SITE 9 : Intracellular : Initial State 'NonOcc'
+          TYPE: Name "Right_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+          x -2.58810 y 0.00000 z 1.59690 
+     SITE 10 : Intracellular : Initial State 'NonOcc'
+          TYPE: Name "Front_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+          x 0.00000 y 2.58810 z 1.59690 
+     SITE 11 : Intracellular : Initial State 'NonOcc'
+          TYPE: Name "Back_site" Radius 0.47210 D 1.000 Color LIGHT_GRAY STATES "NonOcc" "Occ" 
+          x 0.00000 y -2.58810 z 1.59690 
+
+     LINK: Site 1 ::: Site 4
+     LINK: Site 1 ::: Site 3
+     LINK: Site 1 ::: Site 5
+     LINK: Site 1 ::: Site 2
+     LINK: Site 0 ::: Site 2
+     LINK: Site 4 ::: Site 0
+     LINK: Site 0 ::: Site 3
+     LINK: Site 0 ::: Site 5
+     LINK: Site 5 ::: Site 1
+     LINK: Site 2 ::: Site 4
+     LINK: Site 4 ::: Site 3
+     LINK: Site 5 ::: Site 3
+     LINK: Site 5 ::: Site 2
+     LINK: Site 2 ::: Site 8
+     LINK: Site 4 ::: Site 10
+     LINK: Site 3 ::: Site 9
+     LINK: Site 5 ::: Site 11
+     LINK: Site 1 ::: Site 7
+     LINK: Site 6 ::: Site 0
+     LINK: Site 10 ::: Site 6
+     LINK: Site 6 ::: Site 9
+     LINK: Site 6 ::: Site 11
+     LINK: Site 6 ::: Site 8
+     LINK: Site 9 ::: Site 7
+     LINK: Site 10 ::: Site 7
+     LINK: Site 8 ::: Site 7
+     LINK: Site 11 ::: Site 7
+     LINK: Site 8 ::: Site 10
+     LINK: Site 10 ::: Site 9
+     LINK: Site 11 ::: Site 9
+     LINK: Site 8 ::: Site 11
+
+     Initial_Positions: Random
+}
+
+*** MOLECULE FILES ***
+
+MOLECULE: UnitCell null
+
+*** CREATION/DECAY REACTIONS ***
+
+'UnitCell' : kcreate 0.0 kdecay 0.0
+
+*** STATE TRANSITION REACTIONS ***
+
+'Top-Bottom-bound_0' ::     'UnitCell' : 'Bottom_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Bottom_site' : 'NonOcc'
+'Top-bottom-bound1' ::     'UnitCell' : 'Top_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Top_site' : 'NonOcc'
+'Left-Right-Bound0' ::     'UnitCell' : 'Left_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Left_site' : 'NonOcc'
+'Left-Right-Bound1' ::     'UnitCell' : 'Right_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Right_site' : 'NonOcc'
+'Front-Back-bind0' ::     'UnitCell' : 'Front_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Front_site' : 'NonOcc'
+'Front-Back-Bind1' ::     'UnitCell' : 'Back_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Back_site' : 'NonOcc'
+
+*** ALLOSTERIC REACTIONS ***
+
+
+*** BIMOLECULAR BINDING REACTIONS ***
+
+'Top-Bottom'       'UnitCell' : 'Top_site' : 'NonOcc'  +  'UnitCell' : 'Bottom_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
+'Left-Right'       'UnitCell' : 'Left_site' : 'NonOcc'  +  'UnitCell' : 'Right_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
+'Front-Back'       'UnitCell' : 'Front_site' : 'NonOcc'  +  'UnitCell' : 'Back_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
+
+*** MOLECULE COUNTERS ***
+
+'UnitCell' : Measure Total Free Bound 
+
+*** STATE COUNTERS ***
+
+'UnitCell' : 'Top' : 'st0' : Measure Total Free Bound 
+'UnitCell' : 'Bottom' : 'St0' : Measure Total Free Bound 
+'UnitCell' : 'Left' : 'St0' : Measure Total Free Bound 
+'UnitCell' : 'Right' : 'St0' : Measure Total Free Bound 
+'UnitCell' : 'Front' : 'St0' : Measure Total Free Bound 
+'UnitCell' : 'Back' : 'St0' : Measure Total Free Bound 
+'UnitCell' : 'Left_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Left_site' : 'Occ' : Measure Total Free Bound 
+'UnitCell' : 'Right_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Right_site' : 'Occ' : Measure Total Free Bound 
+'UnitCell' : 'Front_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Front_site' : 'Occ' : Measure Total Free Bound 
+'UnitCell' : 'Back_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Back_site' : 'Occ' : Measure Total Free Bound 
+'UnitCell' : 'Top_site' : 'Occ' : Measure Total Free Bound 
+'UnitCell' : 'Top_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Bottom_site' : 'NonOcc' : Measure Total Free Bound 
+'UnitCell' : 'Bottom_site' : 'Occ' : Measure Total Free Bound 
+
+*** BOND COUNTERS ***
+
+'Top-Bottom' : Counted
+'Left-Right' : Counted
+'Front-Back' : Counted
+
+*** SITE PROPERTY COUNTERS ***
+
+'UnitCell' Site 0 :  Track Properties true
+'UnitCell' Site 1 :  Track Properties true
+'UnitCell' Site 2 :  Track Properties true
+'UnitCell' Site 3 :  Track Properties true
+'UnitCell' Site 4 :  Track Properties true
+'UnitCell' Site 5 :  Track Properties true
+'UnitCell' Site 6 :  Track Properties true
+'UnitCell' Site 7 :  Track Properties true
+'UnitCell' Site 8 :  Track Properties true
+'UnitCell' Site 9 :  Track Properties true
+'UnitCell' Site 10 :  Track Properties true
+'UnitCell' Site 11 :  Track Properties true
+
+*** CLUSTER COUNTERS ***
+
+Track_Clusters: false
+
+*** SYSTEM ANNOTATIONS ***
+
+
+*** MOLECULE ANNOTATIONS ***
+
+Annotation: 'UnitCell'
+{
+}
+
+*** REACTION ANNOTATIONS ***
+
+Annotation: 'Top-Bottom-bound_0'
+{
+}
+
+Annotation: 'Top-bottom-bound1'
+{
+}
+
+Annotation: 'Left-Right-Bound0'
+{
+}
+
+Annotation: 'Left-Right-Bound1'
+{
+}
+
+Annotation: 'Front-Back-bind0'
+{
+}
+
+Annotation: 'Front-Back-Bind1'
+{
+}
+
+Annotation: 'Top-Bottom'
+{
+}
+
+Annotation: 'Left-Right'
+{
+}
+
+Annotation: 'Front-Back'
+{
+}
+
