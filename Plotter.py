@@ -1,5 +1,14 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+import fnmatch
+
+def find_files(directory, search_string):
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            if fnmatch.fnmatch(filename, f"*{search_string}*"):
+                match = os.path.join(root, filename)
+    return match
 
 def stdevPlots (path, data_selection):
     

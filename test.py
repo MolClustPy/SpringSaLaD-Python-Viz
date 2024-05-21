@@ -1,1 +1,3 @@
-print(list(range(2,5)))
+import Plotter
+
+print(Plotter.find_files('R_L_test_SIMULATIONS', 'AverageMoleculeCounts'))
