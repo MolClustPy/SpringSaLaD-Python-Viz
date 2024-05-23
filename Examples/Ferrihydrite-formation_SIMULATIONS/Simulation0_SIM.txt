@@ -226,29 +226,3 @@ Annotation: 'Front-Back'
 {
 }
 
-
-*** SIMULATION STATE ***
-
-Runs: 1
-Parallel: false
-SimultaneousRuns: 1
-Aborted: false
-IsRunning: false
-HasResults: false
-RunOnCluster: false
-
-*** PROCESSOR FILES ***
-
-MoleculeAverages: 'null'
-BondAverages: 'null'
-StateAverages: 'null'
-RunningTimes: 'null'
-
-*** RAW DATA FILES ***
-
-'null'
-
-*** SITE DATA FILES ***
-
-null
-
