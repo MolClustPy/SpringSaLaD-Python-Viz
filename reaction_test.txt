@@ -113,8 +113,8 @@ MOLECULE: UnitCell null
 
 *** STATE TRANSITION REACTIONS ***
 
-'Top-Bottom-bound_0' ::     'UnitCell' : 'Bottom_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Bottom_site' : 'NonOcc'
-'Top-bottom-bound1' ::     'UnitCell' : 'Top_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Top_site' : 'NonOcc'
+'Top-Bottom-bound_0' ::     'UnitCell' : 'Bottom_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Right' : 'Any_State'
+'Top-bottom-bound1' ::     'UnitCell' : 'Top_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Top_site' : 'Any_State'
 'Left-Right-Bound0' ::     'UnitCell' : 'Left_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Left_site' : 'NonOcc'
 'Left-Right-Bound1' ::     'UnitCell' : 'Right_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Right_site' : 'NonOcc'
 'Front-Back-bind0' ::     'UnitCell' : 'Front_site' : 'NonOcc' --> 'Occ'  Rate 1000.0  Condition Bound 'UnitCell' : 'Front_site' : 'NonOcc'
@@ -122,14 +122,14 @@ MOLECULE: UnitCell null
 
 *** ALLOSTERIC REACTIONS ***
 
-'AllostericReaction0' ::     'UnitCell' : Site 9 : 'Occ' --> 'NonOcc'  Rate 0.0 Allosteric_Site 10 State 'NonOcc'
+'AllostericReaction0' ::     'UnitCell' : Site 9 : 'Occ' --> 'NonOcc'  Rate 0.0 Allosteric_Site 3 State 'St0'
 'AllostericReaction1' ::     'UnitCell' : Site 11 : 'Occ' --> 'NonOcc'  Rate 0.0 Allosteric_Site 7 State 'Occ'
 'AllostericReaction2' ::     'UnitCell' : Site 8 : 'NonOcc' --> 'Occ'  Rate 0.0 Allosteric_Site 9 State 'NonOcc'
 
 *** BIMOLECULAR BINDING REACTIONS ***
 
-'Top-Bottom'       'UnitCell' : 'Top_site' : 'NonOcc'  +  'UnitCell' : 'Bottom_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
-'Left-Right'       'UnitCell' : 'Left_site' : 'NonOcc'  +  'UnitCell' : 'Right_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
+'Top-Bottom'       'UnitCell' : 'Right' : 'St0'  +  'UnitCell' : 'Back_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
+'Left-Right'       'UnitCell' : 'Left_site' : 'NonOcc'  +  'UnitCell' : 'Front' : 'St0'  kon 8.0  koff 0.0  Bond_Length 0.2
 'Front-Back'       'UnitCell' : 'Front_site' : 'NonOcc'  +  'UnitCell' : 'Back_site' : 'NonOcc'  kon 8.0  koff 0.0  Bond_Length 0.2
 
 *** MOLECULE COUNTERS ***
