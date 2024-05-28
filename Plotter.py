@@ -1,7 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+import os
+from data_locator import *
+from molclustpy import *
 
-def stdevPlots (path, data_selection):
+def stdevPlots (path, data_selection=[]):
     
     if type(data_selection) != list:
         print("Error: Your data_selection must be a list")
@@ -15,14 +19,14 @@ def stdevPlots (path, data_selection):
     num_entries = (df.shape[1] - 3)/2
     
     #Get list of molecule names from columns
-    for item in df.columns:
+    '''for item in df.columns:
         if item != ' ':
             split_item = item.split().pop()
             if '.1' not in split_item and split_item not in molecule_list and split_item != 'Time':
-                molecule_list.append(split_item)
+                molecule_list.append(split_item)'''
     
     #Determine the columns the user wants displayed based on the data_selection argument
-    for item in data_selection:
+    '''for item in data_selection:
         if type(item) == str:
             if item.upper() in (state.upper() for state in states):
                 for column in df.columns:
@@ -45,9 +49,34 @@ def stdevPlots (path, data_selection):
                 output_columns.append(df.columns[item])
         else:
             print('Error: Only str and int datatypes are allowed in the data_selection list')
-            return
+            return'''
+    
+    output_columns = list(df.columns[1:int(num_entries + 1)])
 
-    #Plot selected columns with corresponding 1 standard deviations bounds
+    outpath = os.path.split(path)[0] + "/pyStat"
+
+    if not os.path.isdir(outpath):
+        os.makedirs(outpath)
+    print(outpath)
+    
+    average_list = ['Time']
+    average_list.extend(output_columns)
+    stdev_list = [x + '.1' for x in output_columns]
+    stdev_list.insert(0,'Time')
+    Averages = df[average_list].to_numpy()
+    Stdevs = df[stdev_list].to_numpy()
+    average_list = [x.replace(' ','_')[1:] if x != 'Time' else x for x in average_list]
+    obs_names = '\t'.join(average_list)
+
+    np.savetxt(outpath + "/Mean_Observable_Counts.txt", Averages, header=obs_names, fmt='%.6e')
+    np.savetxt(outpath + "/Stdev_Observable_Counts.txt", Stdevs, header=obs_names, fmt='%.6e')
+    outpath = os.path.split(outpath)[0]
+
+    plotTimeCourse(outpath, data_selection)
+    
+
+    #Old plotting code
+    '''#Plot selected columns with corresponding 1 standard deviations bounds
     if output_columns == []:
         print('Error: No data selected')
         return
@@ -61,4 +90,4 @@ def stdevPlots (path, data_selection):
 
         plt.xlabel('Time (Seconds)')
         plt.ylabel('Average Molecule Counts')
-        plt.show()
+        plt.show()'''
