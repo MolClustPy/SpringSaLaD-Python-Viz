@@ -34,3 +34,13 @@ def find_cluster_fotm(search_directory, file_name = None):
     search_directory = os.path.join(file_name[:-4] + '_FOLDER', 'data', 'Cluster_stat', 'Histograms', 'Size_Freq_Fotm', 'MEAN_Run')
     result = find_files(search_directory, 'Size_Freq_Fotm')
     return result, file_name
+
+#Finds the cluster fotm CSV for a given search_directory
+def find_viewer_file(search_directory, file_name = None, run = 0):
+    if file_name == None:
+        file_name = find_txt_file(search_directory)
+    else:
+        file_name = os.path.join(search_directory, file_name)
+    search_directory = os.path.join(file_name[:-4] + '_FOLDER', 'viewer_files')
+    result = find_files(search_directory, f'Run{run}')
+    return result

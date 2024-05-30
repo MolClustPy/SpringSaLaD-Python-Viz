@@ -1,5 +1,5 @@
 *** TIME INFORMATION ***
-Total time: 5.00E-2
+Total time: 1.00E-2
 dt: 1.00E-8
 dt_spring: 1.00E-9
 dt_data: 1.00E-4
