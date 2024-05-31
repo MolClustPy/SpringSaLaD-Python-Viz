@@ -1,8 +1,11 @@
-path = 'Examples\R_L_test_difficult_SIMULATIONS\Simulation0_SIM.txt'
+import os
 
-with open(path, "r") as f:
-    lines = f.readlines()
+file_name = 'test_name.txt'
 
-for line in lines:
-    if '     TYPE' in line:
-        print(line)
+path_list = ['viewer_files', 'another_folder']
+
+path_list.insert(0, file_name[:-4] + '_FOLDER')
+
+search_directory = os.path.join(*path_list)
+
+print(search_directory)
