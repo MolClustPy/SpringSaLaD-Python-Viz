@@ -18,12 +18,17 @@ def Histogram(search_directory, bins=[], time_ms=0):
     else:
         time_ms = time_ms - (time_ms % dt_data)
 
+    print(search_directory)
+    print(path_list)
+
     if time_ms != None:
         time_s = format(float(time_ms/1000), '.3f')
         fotm_file = data_file_finder(search_directory, path_list, f'MEAN_Run_{time_s}_Size_Freq_Fotm.csv')
     else:
         fotm_file = data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv')
 
+    print(fotm_file)
+    
     outpath = os.path.normpath(fotm_file)
     outpath = os.path.join(*outpath.split(os.sep)[:-5])
 

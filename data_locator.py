@@ -9,12 +9,12 @@ def find_txt_file(search_directory):
         if file.endswith(".txt"):
             return os.path.join(search_directory, file)
 
-#Finds the last file in the search_directory and its subdirecotires that matches the file_name
-def find_files(search_directory, file_name):
-    for root, dirs, files in os.walk(search_directory):
-        for filename in files:
-            if fnmatch.fnmatch(filename, f"*{file_name}*"):
-                match = os.path.join(root, filename)
+#Finds the last file in a given directory that contains search_term in the file name
+def find_files(search_directory, search_term):
+    match = None
+    for filename in os.listdir(search_directory):
+        if search_term in filename:
+            match = os.path.join(search_directory, filename)
     return match
 
 def data_file_finder(search_directory, path_list, search_term = None, file_name = None, run = None):

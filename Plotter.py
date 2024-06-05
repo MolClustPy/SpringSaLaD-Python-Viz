@@ -4,6 +4,15 @@ import numpy as np
 import os
 from data_locator import *
 from molclustpy import *
+from Molclustpy_visualization_funcitons import *
+
+def format_file_name(file_name):
+    split_name = file_name.split('_')
+    if 'Site_' not in file_name:
+        return split_name[0]
+    else:
+        return f'{split_name[0]} {split_name[1]} {split_name[2]} {split_name[3]}'
+
 
 def stdevPlots (path, data_selection=[]):
     
@@ -72,7 +81,9 @@ def stdevPlots (path, data_selection=[]):
     np.savetxt(outpath + "/Stdev_Observable_Counts.txt", Stdevs, header=obs_names, fmt='%.6e')
     outpath = os.path.split(outpath)[0]
 
-    plotTimeCourse(outpath, data_selection)
+    file_name = os.path.split(path)[1][23:]
+    file_name = format_file_name(file_name)
+    plotTimeCourseCopy(outpath, file_name, data_selection)
     
 
     #Old plotting code

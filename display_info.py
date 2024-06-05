@@ -21,12 +21,16 @@ def file_info(path, list_neighbors=False):
             #print(os.path.split(entry)[1][23:], )
             print('{0:50}  {1}'.format(os.path.split(entry)[1][23:], convert_bytes(os.path.getsize(entry))))
 
-def column_info(path):
-    df = pd.read_csv(path, skiprows=1)
-    entries = int((df.shape[1] - 3)/2)
+def column_info(path=None, frame=None, start_col=0, ):
+    if frame is None:
+        df = pd.read_csv(path, skiprows=1)
+        entries = int((df.shape[1] - 3)/2)
+    else:
+        df = frame
+        entries = int(df.shape[1])
 
     print('Columns:')
-    for i in range(1,entries+1):
+    for i in range(start_col,entries+1):
         print(f'{i}: {df.columns[i]}')
 
     lines = []
