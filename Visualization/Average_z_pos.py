@@ -1,8 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from data_locator import *
-import numpy as np
-from input_file_extraction import *
+from data_locator import data_file_finder
+from input_file_extraction import read_input_file
 
 def average_Z(df, color):
     color_df = df[df['Color'] == color]
@@ -26,7 +25,7 @@ def site_info(colors_and_sites):
     print('\nList of indicies:')
     print(lines)
 
-def Average_z_pos(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
+def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
     molecules, _= read_input_file(directory_path)
 
     path = data_file_finder(directory_path, ['viewer_files'], run = run_num)

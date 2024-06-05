@@ -1,11 +1,10 @@
 from molclustpy import *
 from data_locator import *
-import matplotlib.pyplot as plt
-from Molclustpy_visualization_funcitons import *
+from Visualization.Molclustpy_visualization_funcitons import *
 import pandas as pd
 from input_file_extraction import *
 
-def Histogram(search_directory, bins=[], time_ms=None):
+def plot(search_directory, bins=[], time_ms=None):
 
     path_list = ['data', 'Cluster_stat', 'Histograms', 'Size_Freq_Fotm', 'MEAN_Run']
 

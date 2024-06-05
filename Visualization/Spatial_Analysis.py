@@ -1,9 +1,9 @@
 from input_file_extraction import *
 import os
-from ClusTopology_ss import ClusterDensity
-from DataPy import *
+from Visualization.ClusTopology_ss import ClusterDensity
+from Visualization.DataPy import *
 
-def spatial_analysis(path, times=[]):
+def plot(path, times=[]):
     last_item = os.path.split(path)[1][:-12] + '_FOLDER'
     specific_path  = os.path.join(path, last_item)
 
