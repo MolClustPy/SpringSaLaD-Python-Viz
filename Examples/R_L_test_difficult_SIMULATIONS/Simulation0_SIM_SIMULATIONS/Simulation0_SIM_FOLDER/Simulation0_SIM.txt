@@ -148,9 +148,9 @@ Annotation: 'BindingReaction0'
 
 *** SIMULATION STATE ***
 
-Runs: 12
+Runs: 5
 Parallel: true
-SimultaneousRuns: 6
+SimultaneousRuns: 5
 Aborted: false
 IsRunning: true
 HasResults: false

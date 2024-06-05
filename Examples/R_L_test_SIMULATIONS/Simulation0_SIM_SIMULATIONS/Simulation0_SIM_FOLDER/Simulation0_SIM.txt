@@ -1,0 +1,162 @@
+*** TIME INFORMATION ***
+Total time: 1.00E-2
+dt: 1.00E-8
+dt_spring: 1.00E-9
+dt_data: 1.00E-4
+dt_image: 1.00E-4
+
+*** SYSTEM INFORMATION ***
+L_x: 0.1
+L_y: 0.1
+L_z_out: 0.01
+L_z_in: 0.09
+Partition Nx: 10
+Partition Ny: 10
+Partition Nz: 10
+
+*** MOLECULES ***
+
+MOLECULE: "R" Membrane Number 5 Site_Types 3 Total_Sites 4 Total_Links 4 is2D false
+{
+     TYPE: Name "R" Radius 2.00000 D 1.000 Color RED STATES "State0" 
+     TYPE: Name "L" Radius 1.00000 D 1.000 Color ORANGE STATES "State0" 
+     TYPE: Name "Anchor" Radius 1.00000 D 2.000 Color GRAY STATES "Anchor" 
+
+     SITE 0 : Intracellular : Initial State 'State0'
+          TYPE: Name "R" Radius 2.00000 D 1.000 Color RED STATES "State0" 
+          x 0.00000 y 11.23333 z 44.15556 
+     SITE 1 : Membrane : Initial State 'Anchor'
+          TYPE: Name "Anchor" Radius 1.00000 D 2.000 Color GRAY STATES "Anchor" 
+          x 0.00000 y 14.70000 z 31.00000 
+     SITE 2 : Intracellular : Initial State 'State0'
+          TYPE: Name "R" Radius 2.00000 D 1.000 Color RED STATES "State0" 
+          x 0.00000 y 18.41111 z 43.90556 
+     SITE 3 : Intracellular : Initial State 'State0'
+          TYPE: Name "L" Radius 1.00000 D 1.000 Color ORANGE STATES "State0" 
+          x 0.00000 y 14.89444 z 36.11667 
+
+     LINK: Site 2 ::: Site 0
+     LINK: Site 3 ::: Site 1
+     LINK: Site 3 ::: Site 0
+     LINK: Site 3 ::: Site 2
+
+     Initial_Positions: Random
+}
+
+MOLECULE: "Adapter" Intracellular Number 5 Site_Types 2 Total_Sites 3 Total_Links 2 is2D false
+{
+     TYPE: Name "A" Radius 3.00000 D 1.000 Color BLUE STATES "State0" 
+     TYPE: Name "L" Radius 1.00000 D 1.000 Color GOLD STATES "State0" 
+
+     SITE 0 : Intracellular : Initial State 'State0'
+          TYPE: Name "A" Radius 3.00000 D 1.000 Color BLUE STATES "State0" 
+          x 0.00000 y 23.13333 z 49.45000 
+     SITE 1 : Intracellular : Initial State 'State0'
+          TYPE: Name "L" Radius 1.00000 D 1.000 Color GOLD STATES "State0" 
+          x 0.00000 y 22.88889 z 43.77778 
+     SITE 2 : Intracellular : Initial State 'State0'
+          TYPE: Name "A" Radius 3.00000 D 1.000 Color BLUE STATES "State0" 
+          x 0.00000 y 22.42778 z 37.08333 
+
+     LINK: Site 0 ::: Site 1
+     LINK: Site 1 ::: Site 2
+
+     Initial_Positions: Random
+}
+
+*** MOLECULE FILES ***
+
+MOLECULE: R null
+MOLECULE: Adapter null
+
+*** CREATION/DECAY REACTIONS ***
+
+'R' : kcreate 0.0 kdecay 0.0
+'Adapter' : kcreate 0.0 kdecay 0.0
+
+*** STATE TRANSITION REACTIONS ***
+
+
+*** ALLOSTERIC REACTIONS ***
+
+
+*** BIMOLECULAR BINDING REACTIONS ***
+
+'BindingReaction0'       'R' : 'R' : 'Any_State'  +  'Adapter' : 'A' : 'Any_State'  kon 10.0  koff 10.0  Bond_Length 1.0
+
+*** MOLECULE COUNTERS ***
+
+'R' : Measure Total Free Bound 
+'Adapter' : Measure Total Free Bound 
+
+*** STATE COUNTERS ***
+
+'R' : 'R' : 'State0' : Measure Total Free Bound 
+'R' : 'L' : 'State0' : Measure Total Free Bound 
+'R' : 'Anchor' : 'Anchor' : Measure Total Free Bound 
+'Adapter' : 'A' : 'State0' : Measure Total Free Bound 
+'Adapter' : 'L' : 'State0' : Measure Total Free Bound 
+
+*** BOND COUNTERS ***
+
+'BindingReaction0' : Counted
+
+*** SITE PROPERTY COUNTERS ***
+
+'R' Site 0 :  Track Properties true
+'R' Site 1 :  Track Properties true
+'R' Site 2 :  Track Properties true
+'R' Site 3 :  Track Properties true
+'Adapter' Site 0 :  Track Properties true
+'Adapter' Site 1 :  Track Properties true
+'Adapter' Site 2 :  Track Properties true
+
+*** CLUSTER COUNTERS ***
+
+Track_Clusters: true
+
+*** SYSTEM ANNOTATIONS ***
+
+
+*** MOLECULE ANNOTATIONS ***
+
+Annotation: 'R'
+{
+}
+
+Annotation: 'Adapter'
+{
+}
+
+*** REACTION ANNOTATIONS ***
+
+Annotation: 'BindingReaction0'
+{
+}
+
+
+*** SIMULATION STATE ***
+
+Runs: 5
+Parallel: true
+SimultaneousRuns: 1
+Aborted: false
+IsRunning: true
+HasResults: false
+RunOnCluster: false
+
+*** PROCESSOR FILES ***
+
+MoleculeAverages: 'null'
+BondAverages: 'null'
+StateAverages: 'null'
+RunningTimes: 'null'
+
+*** RAW DATA FILES ***
+
+'null'
+
+*** SITE DATA FILES ***
+
+null
+

@@ -14,7 +14,7 @@ def site_info(colors_and_sites):
         i_max = i
         append_str = ''
         for site in color_and_site[1]:
-            append_str = f'{append_str} {site[1]} of {site[0]}, '
+            append_str = f'{append_str}{site[1]} of {site[0]}, '
         output = f'{i}: {append_str}'
         print(output[:-2])
 

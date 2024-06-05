@@ -1,0 +1,6 @@
+Size,"NWASP,NCK,NEPHRIN",Count,Frequency in clusters of the same size
+2,"0,1,1",2,0.4
+2,"1,1,0",3,0.6
+3,"1,2,0",1,1.0
+5,"2,3,0",1,1.0
+13,"3,7,3",1,1.0
