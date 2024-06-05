@@ -5,7 +5,7 @@ Created on Tue Mar 16 18:43:43 2021
 @author: Ani Chattaraj
 """
 
-from DataPy import ReadInputFile, InterSiteDistance, ProgressBar, displayExecutionTime
+from Visualization.DataPy import ReadInputFile, InterSiteDistance, ProgressBar, displayExecutionTime
 import re, json, pickle
 import numpy as np
 import networkx as nx

@@ -26,7 +26,7 @@ def site_info(colors_and_sites):
     print('\nList of indicies:')
     print(lines)
 
-def Average_z_pos(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
+def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
     molecules, _= read_input_file(directory_path)
 
     path = data_file_finder(directory_path, ['viewer_files'], run = run_num)

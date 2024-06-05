@@ -4,7 +4,7 @@ import numpy as np
 import os
 from data_locator import *
 from molclustpy import *
-from Molclustpy_visualization_funcitons import *
+from Visualization.Molclustpy_visualization_funcitons import *
 
 def format_file_name(file_name):
     split_name = file_name.split('_')
@@ -13,8 +13,7 @@ def format_file_name(file_name):
     else:
         return f'{split_name[0]} {split_name[1]} {split_name[2]} {split_name[3]}'
 
-
-def stdevPlots (path, data_selection=[]):
+def plot(path, data_selection=[]):
     
     if type(data_selection) != list:
         print("Error: Your data_selection must be a list")

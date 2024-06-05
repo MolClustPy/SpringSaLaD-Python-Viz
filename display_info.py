@@ -31,7 +31,7 @@ def column_info(path=None, frame=None, start_col=0, ):
 
     print('Columns:')
     for i in range(start_col,entries+1):
-        print(f'{i}: {df.columns[i]}')
+        print(f'{i}: {df.columns[i].strip()}')
 
     lines = []
     for i in range(entries):
