@@ -1,10 +1,9 @@
-from data_locator import *
-from histogram import Histogram
+original_list = [1, 2, 3, 4]
+position = 2
+element = 'a'
 
-search_directory = os.path.join('Examples','R_L_test_difficult_SIMULATIONS','Simulation0_SIM_SIMULATIONS')
+# Creating a new list with the element inserted
+new_list = original_list[:position] + [element] + original_list[position:]
 
-path_list = ['data', 'Cluster_stat', 'Histograms', 'Size_Freq_Fotm', 'MEAN_Run']
-
-fotm_file = data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv')
-
-Histogram(search_directory, bins=[], time_ms=100)
+print("Original List:", original_list)
+print("New List:", new_list)

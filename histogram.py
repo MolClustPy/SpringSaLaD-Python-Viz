@@ -5,7 +5,7 @@ from Molclustpy_visualization_funcitons import *
 import pandas as pd
 from input_file_extraction import *
 
-def Histogram(search_directory, bins=[], time_ms=0):
+def Histogram(search_directory, bins=[], time_ms=None):
 
     path_list = ['data', 'Cluster_stat', 'Histograms', 'Size_Freq_Fotm', 'MEAN_Run']
 
@@ -13,21 +13,20 @@ def Histogram(search_directory, bins=[], time_ms=0):
     _, split_file = read_input_file(search_directory)
     dt_data = 1000*float(split_file[0][4][9:])
 
-    if time_ms % dt_data >= dt_data/2:
-        time_ms = time_ms - (time_ms % dt_data) + dt_data
-    else:
-        time_ms = time_ms - (time_ms % dt_data)
-
-    print(search_directory)
-    print(path_list)
-
     if time_ms != None:
-        time_s = format(float(time_ms/1000), '.3f')
+        #Round to nearest available time based on dt_data value
+        if time_ms % dt_data >= dt_data/2:
+            time_ms = time_ms - (time_ms % dt_data) + dt_data
+        else:
+            time_ms = time_ms - (time_ms % dt_data)
+        
+        decimals = os.path.split(data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv'))[1].split('_')[2].split('.')[1]
+
+        time_s = format(float(time_ms/1000), f'.{len(decimals)}f')
         fotm_file = data_file_finder(search_directory, path_list, f'MEAN_Run_{time_s}_Size_Freq_Fotm.csv')
     else:
         fotm_file = data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv')
-
-    print(fotm_file)
+        time_ms = 1000*float(os.path.split(fotm_file)[1].split('_')[2])
     
     outpath = os.path.normpath(fotm_file)
     outpath = os.path.join(*outpath.split(os.sep)[:-5])
@@ -37,4 +36,4 @@ def Histogram(search_directory, bins=[], time_ms=0):
     df.columns = New_columns
     df.to_csv(os.path.join(outpath,'pyStat','SteadyState_distribution.csv'), index=False)
 
-    plotClusterDistCopy(outpath, bins, time_ms)
+    plotClusterDistCopy(outpath, time_ms, bins)

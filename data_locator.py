@@ -22,8 +22,9 @@ def data_file_finder(search_directory, path_list, search_term = None, file_name 
         file_name = find_txt_file(search_directory)
     else:
         file_name = os.path.join(search_directory, file_name)
-    path_list.insert(0, file_name[:-4] + '_FOLDER')
-    lower_search_directory = os.path.join(*path_list)
+    augmented_path_list = [file_name[:-4] + '_FOLDER'] + path_list
+    lower_search_directory = os.path.join(*augmented_path_list)
+
     if run != None:
         result = find_files(lower_search_directory, f'Run{run}')
     else:
