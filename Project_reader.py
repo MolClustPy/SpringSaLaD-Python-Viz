@@ -7,6 +7,8 @@ from input_file_extraction import *
 def Describe_input_file(search_directory, reactions=False, kinetics=False):
     molecules, split_file = read_input_file(search_directory)
 
+    print('Moleclues:\n')
+
     #Molecule Processing
     multi_state_types = []
     multi_state_sites = []
@@ -34,7 +36,7 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
                 initial_count = f' (Initial Count: {split_general_info[4]})'
             else:
                 initial_count = ''
-        print(f'MOLECULE: {split_general_info[1]}{initial_count}\n')
+        print(f'MOLECULE: {split_general_info[1]}{initial_count}')
         print(f'This molecule has {split_general_info[6]} site types: {typStr[:-2]}')
 
         #Sites
@@ -142,11 +144,11 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
             for site in link[1]:
                 site_str = f'{site_str} site {site},'
             print(f'Site {link[0]} is connected to{site_str[:-1]}')
-        print('\n')
+        print('------------------------------------------------------------------------------------------------------------\n')
 
     if reactions:
         transition_reactions, allosteric_reactions, binding_reactions = read_reactions(split_file)
-
+        print('************************************************************************************************************\n')
         print('Reaction Rules')
         #State Transition Reactions
         if len(transition_reactions) != 0:
