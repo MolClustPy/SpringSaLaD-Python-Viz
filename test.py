@@ -1,9 +1,6 @@
-original_list = [1, 2, 3, 4]
-position = 2
-element = 'a'
+from Visualization import *
+import os
 
-# Creating a new list with the element inserted
-new_list = original_list[:position] + [element] + original_list[position:]
+search_directory = os.path.join('Examples','Nephrin-Nck-NWasp','Final_version_test_SIMULATIONS', 'Simulation0_SIM_SIMULATIONS')
 
-print("Original List:", original_list)
-print("New List:", new_list)
+Cluster_comp.plot(search_directory)

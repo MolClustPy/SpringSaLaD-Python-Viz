@@ -4,28 +4,28 @@ from Visualization.Molclustpy_visualization_funcitons import *
 import pandas as pd
 from input_file_extraction import *
 
-def plot(search_directory, bins=[], time_ms=None):
+def plot(search_directory, bins=[], time=None):
 
     path_list = ['data', 'Cluster_stat', 'Histograms', 'Size_Freq_Fotm', 'MEAN_Run']
 
     #Round to nearest available time based on dt_data value
     _, split_file = read_input_file(search_directory)
-    dt_data = 1000*float(split_file[0][4][9:])
+    dt_data = float(split_file[0][4][9:])
 
-    if time_ms != None:
+    if time != None:
         #Round to nearest available time based on dt_data value
-        if time_ms % dt_data >= dt_data/2:
-            time_ms = time_ms - (time_ms % dt_data) + dt_data
+        if time % dt_data >= dt_data/2:
+            time = time - (time % dt_data) + dt_data
         else:
-            time_ms = time_ms - (time_ms % dt_data)
+            time = time - (time % dt_data)
         
-        decimals = os.path.split(data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv'))[1].split('_')[2].split('.')[1]
+        decimals = os.path.split(data_file_finder(search_directory, path_list, 'Size_Freq_Fotm.csv'))[1].split('_')[2].split('.')[1]
 
-        time_s = format(float(time_ms/1000), f'.{len(decimals)}f')
-        fotm_file = data_file_finder(search_directory, path_list, f'MEAN_Run_{time_s}_Size_Freq_Fotm.csv')
+        time = format(float(time), f'.{len(decimals)}f')
+        fotm_file = data_file_finder(search_directory, path_list, time)
     else:
-        fotm_file = data_file_finder(search_directory, path_list, f'Size_Freq_Fotm.csv')
-        time_ms = 1000*float(os.path.split(fotm_file)[1].split('_')[2])
+        fotm_file = data_file_finder(search_directory, path_list, 'Size_Freq_Fotm.csv')
+        time = float(os.path.split(fotm_file)[1].split('_')[2])
     
     outpath = os.path.normpath(fotm_file)
     outpath = os.path.join(*outpath.split(os.sep)[:-5])
@@ -35,4 +35,4 @@ def plot(search_directory, bins=[], time_ms=None):
     df.columns = New_columns
     df.to_csv(os.path.join(outpath,'pyStat','SteadyState_distribution.csv'), index=False)
 
-    plotClusterDistCopy(outpath, time_ms, bins)
+    plotClusterDistCopy(outpath, time, bins)

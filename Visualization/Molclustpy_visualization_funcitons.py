@@ -16,7 +16,7 @@ def plotClusterDistCopy(path, time, sizeRange=[]):
         plt.axvline(aco, ls='dashed', lw=1.5, color='k')
         plt.xlabel('Cluster Size (molecules)')
         plt.ylabel('Fraction of total molecules')
-        plt.title(f'Cluster Size Distribution at {time} ms')
+        plt.title(f'Cluster Size Distribution at {time} seconds')
         plt.legend()
         plt.show()
     else:
@@ -44,7 +44,7 @@ def plotClusterDistCopy(path, time, sizeRange=[]):
             plt.bar(xLab, foTM_binned, color='grey', ec='k')
             plt.xlabel('Cluster size range (molecules)')
             plt.ylabel('Fraction of total molecules')
-            plt.title(f'Binned Cluster Size Distribution at {time} ms')
+            plt.title(f'Binned Cluster Size Distribution at {time} seconds')
             plt.ylim(0,1)
             plt.show()
         except:
@@ -81,3 +81,52 @@ def plotTimeCourseCopy(path, file_name, obsList=[]):
     plt.ylabel('Observable Counts')
     plt.title(f'{file_name} with bounds of 1 SD')
     plt.show()
+
+def plotBarGraph(xdata, yList, yLabels, title='', width=0.1, alpha=0.5):
+    N_entry = len(yList)
+    midVarId = N_entry//2
+    if N_entry % 2 == 1:
+        # odd number 
+        plt.bar(xdata, yList[midVarId], width=width, alpha=alpha, label=yLabels[midVarId])
+        idx = 1
+        for id_lh in range(0, midVarId):
+            plt.bar(xdata - 0.15*idx, yList[id_lh], width=width, alpha=alpha, label=yLabels[id_lh])
+            idx += 1
+        idx = 1
+        for id_rh in range(midVarId+1, N_entry):
+            plt.bar(xdata + 0.15*idx, yList[id_rh], width=width, alpha=alpha, label=yLabels[id_rh])
+            idx += 1
+    else:
+        # even number 
+        shiftIndex = [0.06] + [0.1]*midVarId
+        
+        idx = 1
+        for id_lh in range(0, midVarId):
+            plt.bar(xdata - idx*shiftIndex[idx-1], yList[id_lh], width=width, alpha=alpha, label=yLabels[id_lh])
+            idx += 1
+        
+        idx = 1
+        for id_rh in range(midVarId, N_entry):
+            plt.bar(xdata + idx*shiftIndex[idx-1], yList[id_rh], width=width, alpha=alpha, label=yLabels[id_rh])
+            idx += 1
+        pass
+    
+    plt.legend(ncol=2)
+    plt.xlabel('Cluster size (molecules)')
+    plt.ylabel('Frequency')
+    plt.title(title, pad=12)
+    plt.show()
+
+def plotClusterCompositionCopy(path, time, specialClusters=[], width=0.1, alpha=0.6):
+    df = pd.read_csv(path + '/pyStat/Cluster_composition.csv')
+    csList = df['Clusters']
+    if len(specialClusters) == 0:
+        mols = df.columns[2:]
+        freqList = [df[mol] for mol in mols]
+        plotBarGraph(csList, freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at time {time} s')
+    else:
+        idx = [i for i in range(len(csList)) if csList[i] in specialClusters]
+        df2 = df.iloc[idx]
+        mols = df.columns[2:]
+        freqList = [df2[mol] for mol in mols]
+        plotBarGraph(df2['Clusters'], freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at time {time} s')

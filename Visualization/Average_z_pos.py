@@ -104,7 +104,7 @@ def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=T
         plt.plot([float(time) for time in times], line[1], color=line[0].replace('_','').lower())
 
     plt.title('Average Distance to Membrane')
-    plt.xlabel('Time (s)')
+    plt.xlabel('Time (seconds)')
     plt.ylabel('Distance (nm)')
 
     legend_list = []
