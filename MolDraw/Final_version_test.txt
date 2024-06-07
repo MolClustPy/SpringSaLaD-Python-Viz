@@ -1,0 +1,307 @@
+*** TIME INFORMATION ***
+Total time: 5.00E-1
+dt: 1.00E-8
+dt_spring: 1.00E-9
+dt_data: 2.00E-3
+dt_image: 1.00E-4
+
+*** SYSTEM INFORMATION ***
+L_x: 0.1
+L_y: 0.1
+L_z_out: 0.01
+L_z_in: 0.1
+Partition Nx: 10
+Partition Ny: 10
+Partition Nz: 10
+
+*** MOLECULES ***
+
+MOLECULE: "NWASP" Intracellular Number 10 Site_Types 5 Total_Sites 16 Total_Links 15 is2D false
+{
+     TYPE: Name "dom1" Radius 2.00000 D 2.000 Color ORANGE STATES "State0" 
+     TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+     TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+     TYPE: Name "dom3" Radius 2.25000 D 2.000 Color ORANGE STATES "State0" 
+     TYPE: Name "dom2" Radius 1.60000 D 2.000 Color ORANGE STATES "State0" 
+
+     SITE 0 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 54.00000 
+     SITE 1 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 57.50000 
+     SITE 2 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 61.00000 
+     SITE 3 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 64.50000 
+     SITE 4 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 68.00000 
+     SITE 5 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 71.50000 
+     SITE 6 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 75.00000 
+     SITE 7 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 78.50000 
+     SITE 8 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 82.00000 
+     SITE 9 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 85.50000 
+     SITE 10 : Intracellular : Initial State 'State0'
+          TYPE: Name "PRM" Radius 1.00000 D 2.000 Color GREEN STATES "State0" 
+          x 0.00000 y 36.00000 z 89.00000 
+     SITE 11 : Intracellular : Initial State 'State0'
+          TYPE: Name "dom1" Radius 2.00000 D 2.000 Color ORANGE STATES "State0" 
+          x 0.00000 y 36.00000 z 39.00000 
+     SITE 12 : Intracellular : Initial State 'State0'
+          TYPE: Name "dom3" Radius 2.25000 D 2.000 Color ORANGE STATES "State0" 
+          x 0.00000 y 36.00000 z 94.00000 
+     SITE 13 : Intracellular : Initial State 'State0'
+          TYPE: Name "dom2" Radius 1.60000 D 2.000 Color ORANGE STATES "State0" 
+          x 0.00000 y 36.00000 z 50.00000 
+     SITE 14 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 43.00000 
+     SITE 15 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 36.00000 z 46.00000 
+
+     LINK: Site 11 ::: Site 14
+     LINK: Site 14 ::: Site 15
+     LINK: Site 15 ::: Site 13
+     LINK: Site 13 ::: Site 0
+     LINK: Site 0 ::: Site 1
+     LINK: Site 1 ::: Site 2
+     LINK: Site 2 ::: Site 3
+     LINK: Site 3 ::: Site 4
+     LINK: Site 4 ::: Site 5
+     LINK: Site 5 ::: Site 6
+     LINK: Site 6 ::: Site 7
+     LINK: Site 7 ::: Site 8
+     LINK: Site 8 ::: Site 9
+     LINK: Site 9 ::: Site 10
+     LINK: Site 10 ::: Site 12
+
+     Initial_Positions: Random
+}
+
+MOLECULE: "NCK" Intracellular Number 20 Site_Types 5 Total_Sites 5 Total_Links 4 is2D false
+{
+     TYPE: Name "SH3_1" Radius 1.10000 D 2.000 Color MAGENTA STATES "State0" 
+     TYPE: Name "SH3_2" Radius 1.25000 D 2.000 Color MAGENTA STATES "State0" 
+     TYPE: Name "SH3_3" Radius 1.10000 D 2.000 Color MAGENTA STATES "State0" 
+     TYPE: Name "SH2" Radius 1.75000 D 2.000 Color YELLOW STATES "State0" 
+     TYPE: Name "linker" Radius 0.50000 D 2.000 Color PINK STATES "State0" 
+
+     SITE 0 : Intracellular : Initial State 'State0'
+          TYPE: Name "SH3_1" Radius 1.10000 D 2.000 Color MAGENTA STATES "State0" 
+          x 0.00000 y 63.30896 z 70.04504 
+     SITE 1 : Intracellular : Initial State 'State0'
+          TYPE: Name "SH3_2" Radius 1.25000 D 2.000 Color MAGENTA STATES "State0" 
+          x 0.00000 y 60.63898 z 73.02350 
+     SITE 2 : Intracellular : Initial State 'State0'
+          TYPE: Name "SH3_3" Radius 1.10000 D 2.000 Color MAGENTA STATES "State0" 
+          x 0.00000 y 64.00000 z 74.00000 
+     SITE 3 : Intracellular : Initial State 'State0'
+          TYPE: Name "SH2" Radius 1.75000 D 2.000 Color YELLOW STATES "State0" 
+          x 0.00000 y 64.00000 z 79.00000 
+     SITE 4 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 0.50000 D 2.000 Color PINK STATES "State0" 
+          x 0.00000 y 64.00000 z 76.50000 
+
+     LINK: Site 0 ::: Site 1
+     LINK: Site 1 ::: Site 2
+     LINK: Site 2 ::: Site 4
+     LINK: Site 4 ::: Site 3
+
+     Initial_Positions: Random
+}
+
+MOLECULE: "NEPHRIN" Membrane Number 6 Site_Types 7 Total_Sites 8 Total_Links 7 is2D false
+{
+     TYPE: Name "dom1" Radius 1.50000 D 1.000 Color CYAN STATES "State0" 
+     TYPE: Name "Anchor" Radius 1.00000 D 0.050 Color GRAY STATES "Anchor" 
+     TYPE: Name "dom2" Radius 0.75000 D 1.000 Color CYAN STATES "State0" 
+     TYPE: Name "pTyr_1_2" Radius 0.65000 D 1.000 Color RED STATES "p" 
+     TYPE: Name "linker" Radius 0.50000 D 1.000 Color CYAN STATES "State0" 
+     TYPE: Name "lin_dom" Radius 0.65000 D 1.000 Color CYAN STATES "State0" 
+     TYPE: Name "pTyr_3" Radius 0.50000 D 1.000 Color RED STATES "p" 
+
+     SITE 0 : Membrane : Initial State 'Anchor'
+          TYPE: Name "Anchor" Radius 1.00000 D 0.050 Color GRAY STATES "Anchor" 
+          x 0.00000 y 70.00000 z 0.00000 
+     SITE 1 : Intracellular : Initial State 'State0'
+          TYPE: Name "dom1" Radius 1.50000 D 1.000 Color CYAN STATES "State0" 
+          x 0.00000 y 70.00000 z 3.00000 
+     SITE 2 : Intracellular : Initial State 'State0'
+          TYPE: Name "dom2" Radius 0.75000 D 1.000 Color CYAN STATES "State0" 
+          x 0.00000 y 70.00000 z 7.00000 
+     SITE 3 : Intracellular : Initial State 'p'
+          TYPE: Name "pTyr_1_2" Radius 0.65000 D 1.000 Color RED STATES "p" 
+          x 0.00000 y 70.00000 z 9.00000 
+     SITE 4 : Intracellular : Initial State 'p'
+          TYPE: Name "pTyr_1_2" Radius 0.65000 D 1.000 Color RED STATES "p" 
+          x 0.00000 y 70.00000 z 10.50000 
+     SITE 5 : Intracellular : Initial State 'State0'
+          TYPE: Name "linker" Radius 0.50000 D 1.000 Color CYAN STATES "State0" 
+          x 0.00000 y 70.00000 z 12.50000 
+     SITE 6 : Intracellular : Initial State 'p'
+          TYPE: Name "pTyr_3" Radius 0.50000 D 1.000 Color RED STATES "p" 
+          x 0.00000 y 70.00000 z 14.50000 
+     SITE 7 : Intracellular : Initial State 'State0'
+          TYPE: Name "lin_dom" Radius 0.65000 D 1.000 Color CYAN STATES "State0" 
+          x 0.00000 y 70.00000 z 16.50000 
+
+     LINK: Site 0 ::: Site 1
+     LINK: Site 1 ::: Site 2
+     LINK: Site 2 ::: Site 3
+     LINK: Site 3 ::: Site 4
+     LINK: Site 4 ::: Site 5
+     LINK: Site 5 ::: Site 6
+     LINK: Site 6 ::: Site 7
+
+     Initial_Positions: Random
+}
+
+*** MOLECULE FILES ***
+
+MOLECULE: NWASP null
+MOLECULE: NCK null
+MOLECULE: NEPHRIN null
+
+*** CREATION/DECAY REACTIONS ***
+
+'NWASP' : kcreate 0.0 kdecay 0.0
+'NCK' : kcreate 0.0 kdecay 0.0
+'NEPHRIN' : kcreate 0.0 kdecay 0.0
+
+*** STATE TRANSITION REACTIONS ***
+
+
+*** ALLOSTERIC REACTIONS ***
+
+
+*** BIMOLECULAR BINDING REACTIONS ***
+
+'pY_SH2 binding_1'       'NEPHRIN' : 'pTyr_1_2' : 'p'  +  'NCK' : 'SH2' : 'Any_State'  kon 100.0  koff 100.0  Bond_Length 1.0
+'PRM_SH3_1'       'NCK' : 'SH3_1' : 'Any_State'  +  'NWASP' : 'PRM' : 'Any_State'  kon 100.0  koff 10000.0  Bond_Length 1.0
+'PRM_SH3_2'       'NCK' : 'SH3_2' : 'Any_State'  +  'NWASP' : 'PRM' : 'Any_State'  kon 100.0  koff 10000.0  Bond_Length 1.0
+'PRM_SH3_3'       'NCK' : 'SH3_3' : 'Any_State'  +  'NWASP' : 'PRM' : 'Any_State'  kon 100.0  koff 10000.0  Bond_Length 1.0
+'pY_SH2_binding_2'       'NEPHRIN' : 'pTyr_3' : 'p'  +  'NCK' : 'SH2' : 'Any_State'  kon 100.0  koff 100.0  Bond_Length 1.0
+
+*** MOLECULE COUNTERS ***
+
+'NWASP' : Measure Total Free Bound 
+'NCK' : Measure Total Free Bound 
+'NEPHRIN' : Measure Total Free Bound 
+
+*** STATE COUNTERS ***
+
+'NWASP' : 'dom1' : 'State0' : Measure Total Free Bound 
+'NWASP' : 'linker' : 'State0' : Measure Total Free Bound 
+'NWASP' : 'PRM' : 'State0' : Measure Total Free Bound 
+'NWASP' : 'dom3' : 'State0' : Measure Total Free Bound 
+'NWASP' : 'dom2' : 'State0' : Measure Total Free Bound 
+'NCK' : 'SH3_1' : 'State0' : Measure Total Free Bound 
+'NCK' : 'SH3_2' : 'State0' : Measure Total Free Bound 
+'NCK' : 'SH3_3' : 'State0' : Measure Total Free Bound 
+'NCK' : 'SH2' : 'State0' : Measure Total Free Bound 
+'NCK' : 'linker' : 'State0' : Measure Total Free Bound 
+'NEPHRIN' : 'dom1' : 'State0' : Measure Total Free Bound 
+'NEPHRIN' : 'Anchor' : 'Anchor' : Measure Total Free Bound 
+'NEPHRIN' : 'dom2' : 'State0' : Measure Total Free Bound 
+'NEPHRIN' : 'pTyr_1_2' : 'p' : Measure Total Free Bound 
+'NEPHRIN' : 'linker' : 'State0' : Measure Total Free Bound 
+'NEPHRIN' : 'lin_dom' : 'State0' : Measure Total Free Bound 
+'NEPHRIN' : 'pTyr_3' : 'p' : Measure Total Free Bound 
+
+*** BOND COUNTERS ***
+
+'pY_SH2 binding_1' : Counted
+'PRM_SH3_1' : Counted
+'PRM_SH3_2' : Counted
+'PRM_SH3_3' : Counted
+'pY_SH2_binding_2' : Counted
+
+*** SITE PROPERTY COUNTERS ***
+
+'NWASP' Site 0 :  Track Properties true
+'NWASP' Site 1 :  Track Properties true
+'NWASP' Site 2 :  Track Properties true
+'NWASP' Site 3 :  Track Properties true
+'NWASP' Site 4 :  Track Properties true
+'NWASP' Site 5 :  Track Properties true
+'NWASP' Site 6 :  Track Properties true
+'NWASP' Site 7 :  Track Properties true
+'NWASP' Site 8 :  Track Properties true
+'NWASP' Site 9 :  Track Properties true
+'NWASP' Site 10 :  Track Properties true
+'NWASP' Site 11 :  Track Properties true
+'NWASP' Site 12 :  Track Properties true
+'NWASP' Site 13 :  Track Properties true
+'NWASP' Site 14 :  Track Properties true
+'NWASP' Site 15 :  Track Properties true
+'NCK' Site 0 :  Track Properties true
+'NCK' Site 1 :  Track Properties true
+'NCK' Site 2 :  Track Properties true
+'NCK' Site 3 :  Track Properties true
+'NCK' Site 4 :  Track Properties true
+'NEPHRIN' Site 0 :  Track Properties true
+'NEPHRIN' Site 1 :  Track Properties true
+'NEPHRIN' Site 2 :  Track Properties true
+'NEPHRIN' Site 3 :  Track Properties true
+'NEPHRIN' Site 4 :  Track Properties true
+'NEPHRIN' Site 5 :  Track Properties true
+'NEPHRIN' Site 6 :  Track Properties true
+'NEPHRIN' Site 7 :  Track Properties true
+
+*** CLUSTER COUNTERS ***
+
+Track_Clusters: true
+
+*** SYSTEM ANNOTATIONS ***
+
+
+*** MOLECULE ANNOTATIONS ***
+
+Annotation: 'NWASP'
+{
+}
+
+Annotation: 'NCK'
+{
+}
+
+Annotation: 'NEPHRIN'
+{
+}
+
+*** REACTION ANNOTATIONS ***
+
+Annotation: 'pY_SH2 binding_1'
+{
+}
+
+Annotation: 'PRM_SH3_1'
+{
+}
+
+Annotation: 'PRM_SH3_2'
+{
+}
+
+Annotation: 'PRM_SH3_3'
+{
+}
+
+Annotation: 'pY_SH2_binding_2'
+{
+}
+

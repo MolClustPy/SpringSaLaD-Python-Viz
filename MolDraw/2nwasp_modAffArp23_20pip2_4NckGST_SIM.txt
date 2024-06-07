@@ -1,0 +1,247 @@
+*** TIME INFORMATION ***
+Total time: 1.00E0
+dt: 1.00E-8
+dt_spring: 1.00E-9
+dt_data: 1.00E-2
+dt_image: 1.00E-2
+
+*** SYSTEM INFORMATION ***
+L_x: 0.05
+L_y: 0.05
+L_z_out: 0.01
+L_z_in: 0.1
+Partition Nx: 5
+Partition Ny: 5
+Partition Nz: 11
+
+*** MOLECULES ***
+
+
+
+MOLECULE: "PIP2" Membrane Number 20 Site_Types 2 Total_Sites 2 Total_Links 1 is2D false
+{
+     TYPE: Name "Anchor" Radius 0.75000 D 0.000 Color WHITE STATES "Anchor" 
+     TYPE: Name "pip2" Radius 1.00000 D 2.000 Color RED STATES "State0" 
+
+     SITE 0 : Membrane : Initial State 'Anchor'
+          TYPE: Name "Anchor" Radius 0.75000 D 0.000 Color WHITE STATES "Anchor" 
+          x 0.00000 y 10.00000 z 21.00000 
+     SITE 1 : Intracellular : Initial State 'State0'
+          TYPE: Name "pip2" Radius 1.00000 D 2.000 Color RED STATES "State0" 
+          x 0.00000 y 10.00000 z 23.00000 
+
+     LINK: Site 0 ::: Site 1
+
+     Initial_Positions: Random
+}
+
+*** MOLECULE FILES ***
+
+MOLECULE: NWASP_full null
+MOLECULE: Nck null
+MOLECULE: Nck_GST null
+MOLECULE: Arp23 null
+MOLECULE: PIP2 null
+
+*** CREATION/DECAY REACTIONS ***
+
+'NWASP_full' : kcreate 0.0 kdecay 0.0
+'Nck' : kcreate 0.0 kdecay 0.0
+'Nck_GST' : kcreate 0.0 kdecay 0.0
+'Arp23' : kcreate 0.0 kdecay 0.0
+'PIP2' : kcreate 0.0 kdecay 0.0
+
+*** STATE TRANSITION REACTIONS ***
+
+
+*** ALLOSTERIC REACTIONS ***
+
+
+*** BIMOLECULAR BINDING REACTIONS ***
+
+'SH3_PRM'       'NWASP_full' : 'PRM' : 'State0'  +  'Nck' : 'SH3' : 'State0'  kon 100.0  koff 5000.0  Bond_Length 0.5
+'GBD_CA'       'NWASP_full' : 'GBD' : 'State0'  +  'NWASP_full' : 'CA' : 'State0'  kon 1000.0  koff 1000.0  Bond_Length 0.5
+'CA_arp2'       'NWASP_full' : 'CA' : 'State0'  +  'Arp23' : 'arp2' : 'State0'  kon 1000.0  koff 100.0  Bond_Length 0.5
+'CA_arp3'       'NWASP_full' : 'CA' : 'State0'  +  'Arp23' : 'arp3' : 'State0'  kon 1000.0  koff 100.0  Bond_Length 0.5
+'GST_SH3_PRM'       'Nck_GST' : 'SH3' : 'State0'  +  'NWASP_full' : 'PRM' : 'State0'  kon 100.0  koff 5000.0  Bond_Length 0.5
+'GST_dimerization'       'Nck_GST' : 'GST' : 'State0'  +  'Nck_GST' : 'GST' : 'State0'  kon 1000.0  koff 1.0  Bond_Length 0.5
+'BR_PIP2'       'NWASP_full' : 'BR' : 'State0'  +  'PIP2' : 'pip2' : 'State0'  kon 1000.0  koff 1000.0  Bond_Length 0.5
+
+*** MOLECULE COUNTERS ***
+
+'NWASP_full' : Measure Total Free Bound 
+'Nck' : Measure Total Free Bound 
+'Nck_GST' : Measure Total Free Bound 
+'Arp23' : Measure Total Free Bound 
+'PIP2' : Measure Total Free Bound 
+
+*** STATE COUNTERS ***
+
+'NWASP_full' : 'WH1' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'BR' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'GBD' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'PRM' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'linker' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'WH2_1' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'CA' : 'State0' : Measure Total Free Bound 
+'NWASP_full' : 'WH2_2' : 'State0' : Measure Total Free Bound 
+'Nck' : 'SH2' : 'State0' : Measure Total Free Bound 
+'Nck' : 'SH3' : 'State0' : Measure Total Free Bound 
+'Nck' : 'linker' : 'State0' : Measure Total Free Bound 
+'Nck_GST' : 'SH2' : 'State0' : Measure Total Free Bound 
+'Nck_GST' : 'SH3' : 'State0' : Measure Total Free Bound 
+'Nck_GST' : 'linker' : 'State0' : Measure Total Free Bound 
+'Nck_GST' : 'GST' : 'State0' : Measure Total Free Bound 
+'Arp23' : 'Arp_dom' : 'State0' : Measure Total Free Bound 
+'Arp23' : 'arp2' : 'State0' : Measure Total Free Bound 
+'Arp23' : 'arp3' : 'State0' : Measure Total Free Bound 
+'PIP2' : 'Anchor' : 'Anchor' : Measure Total Free Bound 
+'PIP2' : 'pip2' : 'State0' : Measure Total Free Bound 
+
+*** BOND COUNTERS ***
+
+'SH3_PRM' : Counted
+'GBD_CA' : Counted
+'CA_arp2' : Counted
+'CA_arp3' : Counted
+'GST_SH3_PRM' : Counted
+'GST_dimerization' : Counted
+'BR_PIP2' : Counted
+
+*** SITE PROPERTY COUNTERS ***
+
+'NWASP_full' Site 0 :  Track Properties true
+'NWASP_full' Site 1 :  Track Properties true
+'NWASP_full' Site 2 :  Track Properties true
+'NWASP_full' Site 3 :  Track Properties true
+'NWASP_full' Site 4 :  Track Properties true
+'NWASP_full' Site 5 :  Track Properties true
+'NWASP_full' Site 6 :  Track Properties true
+'NWASP_full' Site 7 :  Track Properties true
+'NWASP_full' Site 8 :  Track Properties true
+'NWASP_full' Site 9 :  Track Properties true
+'NWASP_full' Site 10 :  Track Properties true
+'NWASP_full' Site 11 :  Track Properties true
+'NWASP_full' Site 12 :  Track Properties true
+'NWASP_full' Site 13 :  Track Properties true
+'NWASP_full' Site 14 :  Track Properties true
+'NWASP_full' Site 15 :  Track Properties true
+'NWASP_full' Site 16 :  Track Properties true
+'NWASP_full' Site 17 :  Track Properties true
+'NWASP_full' Site 18 :  Track Properties true
+'NWASP_full' Site 19 :  Track Properties true
+'NWASP_full' Site 20 :  Track Properties true
+'NWASP_full' Site 21 :  Track Properties true
+'NWASP_full' Site 22 :  Track Properties true
+'Nck' Site 0 :  Track Properties true
+'Nck' Site 1 :  Track Properties true
+'Nck' Site 2 :  Track Properties true
+'Nck' Site 3 :  Track Properties true
+'Nck' Site 4 :  Track Properties true
+'Nck' Site 5 :  Track Properties true
+'Nck' Site 6 :  Track Properties true
+'Nck' Site 7 :  Track Properties true
+'Nck' Site 8 :  Track Properties true
+'Nck' Site 9 :  Track Properties true
+'Nck_GST' Site 0 :  Track Properties true
+'Nck_GST' Site 1 :  Track Properties true
+'Nck_GST' Site 2 :  Track Properties true
+'Nck_GST' Site 3 :  Track Properties true
+'Nck_GST' Site 4 :  Track Properties true
+'Nck_GST' Site 5 :  Track Properties true
+'Nck_GST' Site 6 :  Track Properties true
+'Nck_GST' Site 7 :  Track Properties true
+'Nck_GST' Site 8 :  Track Properties true
+'Nck_GST' Site 9 :  Track Properties true
+'Nck_GST' Site 10 :  Track Properties true
+'Arp23' Site 0 :  Track Properties true
+'Arp23' Site 1 :  Track Properties true
+'Arp23' Site 2 :  Track Properties true
+'PIP2' Site 0 :  Track Properties true
+'PIP2' Site 1 :  Track Properties true
+
+*** CLUSTER COUNTERS ***
+
+Track_Clusters: true
+
+*** SYSTEM ANNOTATIONS ***
+
+
+*** MOLECULE ANNOTATIONS ***
+
+Annotation: 'NWASP_full'
+{
+}
+
+Annotation: 'Nck'
+{
+}
+
+Annotation: 'Nck_GST'
+{
+}
+
+Annotation: 'Arp23'
+{
+}
+
+Annotation: 'PIP2'
+{
+}
+
+*** REACTION ANNOTATIONS ***
+
+Annotation: 'SH3_PRM'
+{
+}
+
+Annotation: 'GBD_CA'
+{
+}
+
+Annotation: 'CA_arp2'
+{
+}
+
+Annotation: 'CA_arp3'
+{
+}
+
+Annotation: 'GST_SH3_PRM'
+{
+}
+
+Annotation: 'GST_dimerization'
+{
+}
+
+Annotation: 'BR_PIP2'
+{
+}
+
+
+*** SIMULATION STATE ***
+
+Runs: 50
+Parallel: false
+SimultaneousRuns: 1
+Aborted: false
+IsRunning: false
+HasResults: false
+RunOnCluster: false
+
+*** PROCESSOR FILES ***
+
+MoleculeAverages: 'null'
+BondAverages: 'null'
+StateAverages: 'null'
+RunningTimes: 'null'
+
+*** RAW DATA FILES ***
+
+'null'
+
+*** SITE DATA FILES ***
+
+null
+

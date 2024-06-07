@@ -1,0 +1,323 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug  5 17:47:10 2019
+
+@author: Ani Chattaraj
+"""
+
+from DataPy import ReadInputFile, InterSiteDistance, ProgressBar, displayExecutionTime
+import re
+import numpy as np
+import networkx as nx
+from glob import glob
+import matplotlib.pyplot as plt
+
+def connected_component_subgraphs(G):
+    for c in nx.connected_components(G):
+        yield G.subgraph(c)
+
+class CrossLinkIndex:
+    
+    def __init__(self, txtfile, ss_timeSeries, activeSites=None):
+        self.simObj = ReadInputFile(txtfile)
+        self.ss_timeSeries = ss_timeSeries
+        tf, dt, dt_data, dt_image = self.simObj.getTimeStats()
+        inpath = self.simObj.getInpath() + "/data"
+        numRuns = self.simObj.getNumRuns()
+        self.N_frames = int(tf/dt_image)
+        self.inpath = inpath
+        self.numRuns = numRuns
+        self.activeSites = activeSites
+    
+    def __repr__(self):
+        simfile = self.simObj.txtfile.split('/')[-1]
+        info = f"Class : {self.__class__.__name__}\nSystem : {simfile}"
+        return info
+    @staticmethod
+    def getMolIds(molfile, molName):
+        molDict = {}
+        mIds = []
+        with open(molfile, 'r') as tmpfile:
+            for line in tmpfile:
+                line = line.strip().split(',')
+                if line[-1] == molName:
+                    mIds.append(line[0])
+        molDict[molName] = mIds
+        return molDict
+    @staticmethod
+    def getSiteIds(sitefile, molName):
+        siteDict = {}
+        sIds = []
+        with open(sitefile, 'r') as tmpfile:
+            for line in tmpfile:
+                line = line.strip().split(',')
+                if line[-1].split()[0] == molName:
+                    sIds.append(line[0])
+        siteDict[molName] = sIds
+        return siteDict
+    @staticmethod
+    def getRevDict(myDict):
+        # k,v = key : [val1, val2, ...]
+        revDict = {}
+        for k,v in myDict.items():
+            for val in v:
+                revDict[val] = k
+        return revDict
+    @staticmethod
+    def splitArr(arr, n):
+        subArrs = []
+        if (len(arr)%n == 0):
+            f = int(len(arr)/n)
+            i = 0
+            while (i < len(arr)):
+                sub_arr = arr[i : i+f]
+                i += f
+                subArrs.append(sub_arr)
+            return subArrs
+        else:
+            print(f"Can't split the given array (length = {len(arr)}) into {n} parts")
+    
+    def getReactiveSiteIDs(self):
+        RS_ids = []
+        sIDfile = InterSiteDistance.findFile(self.inpath, self.numRuns, "SiteIDs")
+        if self.activeSites == None:
+            activeSites = self.simObj.getReactiveSites()
+            #print('Active siteList based on rxnrules ... ')
+            #print(activeSites)
+        else:
+            activeSites = self.activeSites
+        
+        with open(sIDfile,'r') as sf:
+            lines = sf.readlines()
+            for line in lines:
+                line = line.split(',')
+                if line[-1].split()[-1] in activeSites:
+                    RS_ids.append(line[0])
+        return RS_ids
+    
+    def mapSiteToMolecule(self):
+        #inpath = self.simObj.getInpath() + "\data"
+        #numRuns = self.simObj.getNumRuns()
+        sIDfile = InterSiteDistance.findFile(self.inpath, self.numRuns, "SiteIDs")
+        mIDfile = InterSiteDistance.findFile(self.inpath, self.numRuns, "MoleculeIDs")
+        molName, molCount = self.simObj.getMolecules()
+        molIDs, siteIDs = {}, {}
+        for mol in molName:
+            molIDs.update(self.getMolIds(mIDfile, mol))
+            siteIDs.update(self.getSiteIds(sIDfile, mol))
+        spmIDs = {} # sites per molecule
+        for mol, count in zip(molName, molCount):
+            #molDict = {}
+            arr = self.splitArr(siteIDs[mol], count)
+            mol_ids = molIDs[mol]
+            d = dict(zip(mol_ids, arr))
+            spmIDs.update(d)
+        rev_spm = self.getRevDict(spmIDs)
+        return rev_spm
+    @staticmethod
+    def getBindingStatus(frame):
+        IdList, linkList = [], [] 
+        for line in frame:
+            if re.search("ID", line):
+                IdList.append(line.split()[1])
+            if re.search("Link", line):
+                line = line.split()
+                linkList.append((line[1], line[3]))
+        return IdList, linkList
+    
+    def getSteadyStateFrameIndices(self, viewerfile):
+        frame_indices = []
+        ss_indices = [] 
+        tps = []
+        index_pairs = []
+        with open(viewerfile, 'r') as tmpfile:
+            lines = tmpfile.readlines()
+            for i, line in enumerate(lines):
+                if re.search("SCENE", line):
+                    frame_indices.append(i)
+                    tp = lines[i+1].split()[-1]
+                    tps.append(tp)
+                    if any([np.isclose(float(tp), t) for t in self.ss_timeSeries]):
+                        ss_indices.append(i)
+            frame_indices.append(len(lines))
+        for ii, elem in enumerate(frame_indices):
+            if elem in ss_indices:
+                index_pairs.append((elem, frame_indices[ii+1]))
+        return tps, index_pairs
+    
+    @staticmethod
+    def createGraph(IdList, LinkList):
+        G = nx.Graph()
+        G.add_nodes_from(IdList)
+        G.add_edges_from(LinkList)
+        return G
+    
+    def getCEI(self, viewerfile):
+        # CEI : clustering efficiency index = free binding sites/ total binding sites
+        CS_list = [] # list of clusters
+        CEI_list = []
+        msm = self.mapSiteToMolecule()
+        completeTrajectory = False
+        tps, index_pairs = self.getSteadyStateFrameIndices(viewerfile)
+        RS_list = self.getReactiveSiteIDs()
+        
+        if len(tps) != self.N_frames + 1:
+            #print("N_frames : ", len(tps))
+            pass
+        else:
+            completeTrajectory = True
+            #print("frames : ", len(tps))
+            with open(viewerfile, 'r') as infile:
+                lines = infile.readlines()
+                for i,j in index_pairs:
+                    current_frame = lines[i:j]
+                    cluster_index = 0
+                    Ids, Links = self.getBindingStatus(current_frame)
+                    mIds, mLinks = [msm[k] for k in Ids], [(msm[k1], msm[k2]) for k1,k2 in Links]
+                    sG = self.createGraph(Ids, Links)
+                    mG = self.createGraph(mIds, mLinks)
+                    #G.subgraph(c) for c in connected_components(G)
+                    for sg, mg in zip(connected_component_subgraphs(sG), connected_component_subgraphs(mG)):
+                        #print(f"cluster {cluster_index}")
+                        cluster_index += 1
+                        sites = list(sg.nodes)
+                        mols = list(mg.nodes)
+                        site_pairs = list(sg.edges())
+                        if len(mols) == 1:
+                            pass  # excluding the monomers
+                        else:
+                            RSites = [s for s in sites if s in RS_list]
+                            tmpList = [(id1,id2) for id1,id2 in site_pairs if msm[id1] != msm[id2]]
+                            bound_sites = set([id1 for id1,id2 in tmpList] + [id2 for id1,id2 in tmpList])
+                            bound_Rsites = [bs for bs in bound_sites if bs in RSites]
+                            freeSites = len(RSites) - len(bound_Rsites)
+                            #print('Rsites')
+                            #print(RSites)
+                            #print('Bound sites')
+                            #print(bound_sites)
+                            #print()
+                            CEI = freeSites/len(RSites) 
+                            CEI_list.append(CEI)
+                            CS_list.append(len(mols))
+        if completeTrajectory:
+            return CS_list, CEI_list
+        else:
+            return None
+    @displayExecutionTime
+    def getCEI_stat(self):
+        print("Calculating CEI ...")
+        CS_stat, CEI_stat = [], []
+        outpath = self.simObj.getOutpath("CEI_stat")
+        vfiles = glob(self.simObj.getInpath() + "/viewer_files/*.txt")
+        #vfiles = glob(self.simObj.getInpath() + "/test/*.txt")
+        IVF = [] # Incomplete Viewer File
+        N_traj = len(vfiles)
+        
+        for i, vfile in enumerate(vfiles):
+            res = self.getCEI(vfile)
+            if res == None:
+                #print(f"Run{i} : None")
+                IVF.append(vfile)
+            else:
+                #print(res)
+                CS_stat.extend(res[0])
+                CEI_stat.extend(res[1])
+            ProgressBar("Progress", (i+1)/N_traj)
+        
+        with open(outpath + "/CS_stat.txt", "w") as of1, open(outpath + "/CEI_stat.txt", "w") as of2:
+            np.savetxt(of1, np.array(CS_stat))
+            np.savetxt(of2, np.array(CEI_stat))
+        
+        completeTrajCount = N_traj - len(IVF)
+        ss_tp1000 = [t*1e3 for t in self.ss_timeSeries]
+        with open(outpath + "/Sampling_stat.txt","w") as of:
+            of.write(f"Complete Trajectories : {completeTrajCount}\n\n")
+            of.write(f"Steady state timepoints (ms): {ss_tp1000}\n\n")
+            if len(IVF) > 0:
+                for ivf in IVF:
+                    ivf = ivf.split('/')[-1]
+                    of.write(f"{ivf}\n")
+        print(f"Complete Trajectories : {completeTrajCount}")
+        
+        print("CS array:", len(CS_stat))
+        print("CEI_array:", len(CEI_stat))
+    
+    def plot_CEI_stat(self, scatter=True, hist=False, fs=18, color='b', xticks=None, yticks=None):
+        path = self.simObj.getInpath() + "/pyStat/CEI_stat"
+        simfile = self.simObj.txtfile.split('/')[-1]
+        name = simfile.replace(".txt","")
+        try:
+            cs_arr = np.genfromtxt(path + "/CS_stat.txt", delimiter=',')
+            ce_arr = np.genfromtxt(path + "/CEI_stat.txt", delimiter=',')
+            cs_arr, ce_arr = cs_arr[:-1], ce_arr[:-1]
+            meanVal = np.mean(ce_arr)
+            if scatter:
+                xy = [(x,y) for x,y in zip(cs_arr, ce_arr)]
+                freq_dict = {p: xy.count(p) for p in set(xy)}
+                tot_count = sum(freq_dict.values())
+                freq_dict = {k: (v/tot_count) for k,v in freq_dict.items()}
+                #print(freq_dict)
+                cs,ce,freq = [], [], []
+                for p,f in freq_dict.items():
+                    cs.append(p[0])
+                    ce.append(p[1])
+                    freq.append(f)
+                
+                plt.figure(figsize=(6,3))
+                plt.scatter(cs,ce,c=freq, s=50, cmap='rainbow')
+                ce_gt10 = [ce for ce,cs in zip(ce,cs) if cs > 10]
+                m_ce = sum(ce_gt10)/len(ce_gt10)
+                plt.axhline(m_ce, ls='dashed', lw=1.5, 
+                            color='k', label=f'mean = {m_ce:.3f}')
+                plt.colorbar()
+                
+                #plt.scatter(cs_arr, ce_arr, color=color, label="mean CEI = {:.4f}".format(meanVal))
+                plt.xlabel("Cluster size (molecules)", fontsize=fs)
+                plt.ylabel("Free fraction", fontsize=fs)
+                if not xticks == None:
+                    plt.xticks(ticks=xticks)
+                if not yticks == None:
+                    plt.yticks(ticks=yticks)
+                plt.title(name, fontsize=16)
+                plt.legend(fontsize=16)
+                plt.show()
+            if hist:
+                weights = np.ones_like(ce_arr)/len(ce_arr)
+                bins=int(np.sqrt(len(ce_arr)))
+                plt.hist(ce_arr, bins=20, weights=weights, color=color, label="mean CEI = {:.4f}".format(meanVal))
+                plt.axvline(meanVal, ls ='dashed', lw=1, color=color)
+                plt.xlabel("CEI", fontsize=fs)
+                plt.ylabel("Frequency", fontsize=fs)
+                plt.title(name)
+                plt.legend()
+            
+            
+        except:
+            print(f"No files found inside {path}")
+        
+        
+        
+                
+txtfile = r"Examples\Nephrin-Nck-NWasp\Final_version_test_SIMULATIONS\Simulation0_SIM_SIMULATIONS\Simulation0_SIM_FOLDER\Simulation0_SIM.txt"
+
+vf = r'Examples\Nephrin-Nck-NWasp\Final_version_test_SIMULATIONS\Simulation0_SIM_SIMULATIONS\Simulation0_SIM_FOLDER\viewer_files\Simulation0_SIM_VIEW_Run0.txt'
+
+ss_tps = np.arange(0.02, 0.05+0.01, 0.01)
+
+AS = ["PRM", "SH3_1", "SH3_2","SH3_3","SH2","pTyr_1_2", "pTyr_3"]  # active sites
+
+#AS = ['sh3', 'prm']
+#AS = ['SH3', 'PRM', ]
+
+CLI = CrossLinkIndex(txtfile, ss_timeSeries=ss_tps, activeSites=AS)
+
+print(CLI)
+#d = cl.mapSiteToMolecule()
+#rif = ReadInputFile(txtfile)
+#print(rif.getReactiveSites())
+#print(len(cl.getActiveSiteIDs())) 
+CLI.getCEI(vf) 
+CLI.getCEI_stat() 
+CLI.plot_CEI_stat(color='k', fs=16, xticks=None, yticks=None) 
+#CLI.plot_CEI_stat(color='c', xticks=None, yticks=None)    
+        
