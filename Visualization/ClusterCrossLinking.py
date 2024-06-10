@@ -11,7 +11,6 @@ import numpy as np
 import networkx as nx
 from glob import glob
 import matplotlib.pyplot as plt
-from data_locator import *
 
 def connected_component_subgraphs(G):
     for c in nx.connected_components(G):
@@ -209,7 +208,6 @@ class CrossLinkIndex:
         print("Calculating SI ...")
         CS_stat, SI_stat = [], []
         outpath = self.simObj.getOutpath("SI_stat")
-        print(self.simObj.getInpath())
         vfiles = glob(self.simObj.getInpath() + "/viewer_files/*.txt")
         #vfiles = glob(self.simObj.getInpath() + "/test/*.txt")
         IVF = [] # Incomplete Viewer File
@@ -280,7 +278,8 @@ class CrossLinkIndex:
                     plt.xticks(ticks=xticks)
                 if not yticks == None:
                     plt.yticks(ticks=yticks)
-                plt.title(name, fontsize=16)
+                #plt.title(name, fontsize=16)
+                plt.title("Cluster Bound Fraction Scatter Plot", fontsize=16)
                 plt.legend(fontsize=16)
                 plt.show()
             if hist:
@@ -290,7 +289,8 @@ class CrossLinkIndex:
                 plt.axvline(meanVal, ls ='dashed', lw=1, color=color)
                 plt.xlabel("SI", fontsize=fs)
                 plt.ylabel("Frequency", fontsize=fs)
-                plt.title(name)
+                #plt.title(name)
+                plt.title("Cluster Bound Fraction Histogram Plot")
                 plt.legend()
             
             
