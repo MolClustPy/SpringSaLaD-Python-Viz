@@ -181,7 +181,8 @@ class ClusterDensity:
         # posList = N,3 array for N sites
         com = np.mean(posList, axis=0) # center of mass
         Rg2 = np.mean(np.sum((posList - com)**2, axis=1))
-        return com, np.sqrt(Rg2)
+        rmax2 = np.max(np.sum((posList - com)**2, axis=1), axis=0)
+        return com, np.sqrt(Rg2), np.sqrt(rmax2)
     
     @staticmethod
     def calc_zagreb_indices(MG):
@@ -206,9 +207,9 @@ class ClusterDensity:
     def getClusterDensity(self, viewerfile, cs_thresh=1):
         # cluster size,  radius of gyration
         # M1, M2: Zagreb indices
-        csList, RgList, M1List, M2List = [], [], [], []
+        csList, RgList, rmaxList, M1List, M2List = [], [], [], [], []
         
-        mtp_cs, mtp_rg = [], [] # mtp: multi timepoint stat
+        mtp_cs, mtp_rg, mtp_rmax = [], [], [] # mtp: multi timepoint stat
         
         # MCL: molecular cross linking (number of bonds per molecule)  
         MCL = []
@@ -220,7 +221,7 @@ class ClusterDensity:
             for i,j in index_pairs:
                 #i,j = index_pairs[-1]
                 current_frame = lines[i:j]
-                cs_frame, rg_frame = [], [] # clusters in current frame
+                cs_frame, rg_frame, rmax_frame = [], [], [] # clusters in current frame
                 posDict, Links = self.getBindingStatus(current_frame)
                 Ids = [_ for _ in posDict.keys()]
                 #mIds, mLinks = [msm[k] for k in Ids], [(msm[k1], msm[k2]) for k1,k2 in Links]
@@ -244,21 +245,24 @@ class ClusterDensity:
                         
                         posList = np.array([posDict[s] for s in sites])
                         
-                        com, Rg = self.calc_RadGy(posList)
+                        com, Rg, rmax = self.calc_RadGy(posList)
                         
                         cs_frame.append(cs)
                         rg_frame.append(Rg)
+                        rmax_frame.append(rmax)
                         
                         csList.append(cs)
                         RgList.append(Rg)
+                        rmaxList.append(rmax)
                         M1List.append(M1)
                         M2List.append(M2)
                 
                 mtp_cs.append(cs_frame)
                 mtp_rg.append(rg_frame)
+                mtp_rmax.append(rmax_frame)
                         
        
-        return [csList, RgList, M1List, M2List], MCL, mtp_cs, mtp_rg
+        return [csList, RgList, rmaxList, M1List, M2List], MCL, mtp_cs, mtp_rg, mtp_rmax
     
     @staticmethod  
     def plotRg(csList, RgList):
@@ -294,7 +298,7 @@ class ClusterDensity:
         cs_tmp, rg_tmp = [], []
 
         for i, vfile in enumerate(vfiles):
-            res, MCL, mtp_cs, mtp_rg = self.getClusterDensity(vfile, cs_thresh=cs_thresh)
+            res, MCL, mtp_cs, mtp_rg, mtp_rmax = self.getClusterDensity(vfile, cs_thresh=cs_thresh)
             #print(array(mtp_rg))
             MCL_stat.extend(MCL)
             cs_tmp.extend(mtp_cs)

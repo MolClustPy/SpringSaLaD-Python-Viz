@@ -2,7 +2,7 @@ import numpy as np
 from Visualization.ClusterCrossLinking import CrossLinkIndex
 from data_locator import *
 
-def plot(search_directory, times):     
+def plot(search_directory, times, hist=False):     
     #txtfile = r"Examples\Nephrin-Nck-NWasp\Final_version_test_SIMULATIONS\Simulation0_SIM_SIMULATIONS\Simulation0_SIM_FOLDER\Simulation0_SIM.txt"
     #vf = r'Examples\Nephrin-Nck-NWasp\Final_version_test_SIMULATIONS\Simulation0_SIM_SIMULATIONS\Simulation0_SIM_FOLDER\viewer_files\Simulation0_SIM_VIEW_Run2.txt'
 
@@ -25,5 +25,5 @@ def plot(search_directory, times):
     #print(len(cl.getActiveSiteIDs())) 
     CLI.getSI(vf) 
     CLI.getSI_stat() 
-    CLI.plot_SI_stat(color='k', fs=16, xticks=None, yticks=None)
+    CLI.plot_SI_stat(color='k', fs=16, xticks=None, yticks=None, hist=hist)
     #CLI.plot_SI_stat(color='c', xticks=None, yticks=None)
