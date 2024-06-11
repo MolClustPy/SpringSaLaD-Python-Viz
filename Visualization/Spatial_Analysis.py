@@ -5,7 +5,10 @@ from Visualization.ClusTopology_ss import ClusterDensity
 from Visualization.DataPy import *
 
 def read_viewer(path):
-    last_item = os.path.split(path)[1][:-12] + '_FOLDER'
+    if path[-7:] == '_FOLDER':
+        last_item = ''
+    else:
+        last_item = os.path.split(path)[1][:-12] + '_FOLDER'
     specific_path  = os.path.join(path, last_item)
 
     _,split_file = read_input_file(specific_path)
@@ -48,7 +51,9 @@ def time_course(path, data_selection='rg', indicies = [0,1], size_threshold=1):
         
         cd = ClusterDensity(input_file, ss_timeSeries=[time])
         for vfile in vfiles:
+            #this line takes up the majority of the computation time
             res, MCL, mtp_cs, mtp_rg, mtp_rmax = cd.getClusterDensity(vfile, size_threshold)
+            
             cs_tmp.extend(mtp_cs)
             rg_tmp.extend(mtp_rg)
             rmax_tmp.extend(mtp_rmax)
