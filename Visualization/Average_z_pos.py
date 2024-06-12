@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from data_locator import data_file_finder
 from input_file_extraction import read_input_file
+import numpy as np
 
 def average_Z(df, color):
     color_df = df[df['Color'] == color]
@@ -28,6 +29,10 @@ def site_info(colors_and_sites):
 def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
     molecules, _= read_input_file(directory_path)
 
+    z_values_list = []
+    count = 0
+    #for run_num in range(5):
+    count = count + 1
     path = data_file_finder(directory_path, ['viewer_files'], run = run_num)
 
     with open(path, "r") as f:
@@ -53,7 +58,7 @@ def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=T
                 else:
                     pass
 
-    if list_sites:
+    if list_sites and count == 0:
         site_info(colors_and_sites)
     
     split_file = []
@@ -97,6 +102,17 @@ def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=T
         for data_frame in data_frame_list:
             line.append(average_Z(data_frame,color))
         z_values.append([color, line])
+    z_values_list.append(z_values)
+        
+    
+    '''avg_z_values = []
+            
+    for i in range(len(colors_and_sites)):
+        tmp_list = []
+        for run in z_values_list:
+            tmp_list.append(run[i][1])
+        avg = [float(sum(col))/len(col) for col in zip(*tmp_list)]
+        avg_z_values.append([z_values[i][0], avg])'''
 
     #plt.figure(figsize=(8,5))
 

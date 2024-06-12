@@ -23,10 +23,15 @@ def plot(path, times=[]):
     count, dt_image, input_file = read_viewer(path)
 
     if times==[]:
-        times = [0]
-        for i in range(int(count) + 1):
-            times.append(i*dt_image)
-        times.pop(0)
+        
+        #Finds all data points
+        #times = [0]
+        #for i in range(int(count) + 1):
+        #    times.append(i*dt_image)
+        #times.pop(0)
+        
+        #Finds last data point
+        times = [int(count)*dt_image]
     else:
         pass
 

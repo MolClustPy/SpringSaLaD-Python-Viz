@@ -25,6 +25,7 @@ def display_molecules(path):
 
     for mol, site, link in zip(molNames, SiteList, LinkList):
         
+        print(mol + ':')
         mol2D = Draw_2D_Molecule(mol,site,link,outpath)
         mol2D.displayMolecule(LineWidth, saveImage)
         #mol2D.displayMolecules(SiteList,LinkList, LineWidth, saveImage)

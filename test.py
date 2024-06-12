@@ -1,19 +1,13 @@
-import os
-from Visualization.DataPy import *
-from data_locator import *
-from input_file_extraction import read_input_file
-from Timer import Timer
+import pandas as pd
 
-search_directory = os.path.join('Examples','Nephrin-Nck-NWasp','Final_version_test_SIMULATIONS', 'Simulation0_SIM_SIMULATIONS')
-input_file = find_txt_file(search_directory)
+path = r'Examples\Nephrin-Nck-NWasp\Final_version_test_SIMULATIONS\Simulation0_SIM_SIMULATIONS\Simulation0_SIM_FOLDER\data\Run0\SiteIDs.csv'
 
-stopwatch = Timer()
+file_path = 'path_to_your_file.csv'
 
-stopwatch.start()
-molecules, _= read_input_file(search_directory)
-stopwatch.stop()
+df = pd.read_csv(path, header=None)
 
-stopwatch.start()
-obj = ReadInputFile(input_file)
-molNames, molCounts = obj.getMolecules()
-stopwatch.stop()
+df.columns = ['ID', 'Sites']
+
+data_dict = pd.Series(df['Sites'].values, index=df['ID']).to_dict()
+
+print(data_dict[100000005])

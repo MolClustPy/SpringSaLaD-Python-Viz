@@ -64,7 +64,6 @@ def plot(path, data_selection=[]):
 
     if not os.path.isdir(outpath):
         os.makedirs(outpath)
-    print(outpath)
     
     average_list = ['Time']
     average_list.extend(output_columns)
