@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from Visualization.ClusTopology_ss import ClusterDensity
 from Visualization.DataPy import *
+from Visualization.times_2_title import * 
 
 def read_viewer(path):
     if path[-7:] == '_FOLDER':
@@ -35,8 +36,10 @@ def plot(path, times=[]):
     else:
         pass
 
+    title_str = times_2_title(times)
+    
     cd = ClusterDensity(input_file, ss_timeSeries=times)
-    cd.getCD_stat(cs_thresh=1)
+    cd.getCD_stat(cs_thresh=1, title_str=title_str)
 
 def time_course(path, data_selection='rg', indicies = [0,1], size_threshold=1):
     count, dt_image, input_file = read_viewer(path)
@@ -98,7 +101,7 @@ def time_course(path, data_selection='rg', indicies = [0,1], size_threshold=1):
         plt.title('Cluster Size')
         plt.ylabel('Moleclues per Cluster')
     else:
-        plt.title('Furthest Site Distance from COM')
+        plt.title('Maximum Cluster Radius')
         plt.ylabel('Distance (nm)')
     
     plt.xlabel('Time (seconds)')

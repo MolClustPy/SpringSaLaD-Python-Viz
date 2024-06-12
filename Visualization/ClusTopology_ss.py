@@ -265,24 +265,26 @@ class ClusterDensity:
         return [csList, RgList, rmaxList, M1List, M2List], MCL, mtp_cs, mtp_rg, mtp_rmax
     
     @staticmethod  
-    def plotRg(csList, RgList):
+    def plotRg(csList, RgList, time_str):
         fig, ax = plt.subplots(figsize=(5,3))
         ax.scatter(csList, RgList, color='k', s=4)
         ax.set_xlabel('Cluster size (molecules)')
         ax.set_ylabel('Radius of Gyration (nm)')
+        plt.title('Radius of Gyration Scatter Plot' + time_str)
         plt.show() 
     
     @staticmethod
-    def plotBondsPerMolecule(countDict):
+    def plotBondsPerMolecule(countDict, time_str):
         fig, ax = plt.subplots(figsize=(5,3))
         bonds, freq = countDict.keys(), countDict.values()
         ax.bar(bonds, freq, width=0.3, color='grey')
         ax.set_xlabel('Bonds per molecule')
         ax.set_ylabel('Frequency')
+        plt.title('Bonds per Molecule Histogram' + time_str)
         plt.show()
         
     @displayExecutionTime
-    def getCD_stat(self, cs_thresh=1):
+    def getCD_stat(self, cs_thresh=1, title_str=''):
         # collect statistics at the last timepoint
         sysName = self.inpath.split('/')[-2].replace('_SIM_FOLDER','')
         print('\nSystem: ', sysName)
@@ -334,8 +336,8 @@ class ClusterDensity:
         
         csList = np.concatenate(cs_tmp).ravel().tolist()
         rgList = np.concatenate(rg_tmp).ravel().tolist()
-        self.plotRg(csList, rgList)
-        self.plotBondsPerMolecule(counts_norm)
+        self.plotRg(csList, rgList, title_str)
+        self.plotBondsPerMolecule(counts_norm, title_str)
        
 '''
 files = glob('C:/Users/chatt/Desktop/pytest/springsalad/test_dataset/A5_B5_flex_3nm_2nm_count_40_SIM_FOLDER/A5_B5_flex_3nm_2nm_count_40_SIM.txt')        

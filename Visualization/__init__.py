@@ -1,1 +1,11 @@
-__all__ = ['Average_z_pos', 'ClusTopology_ss', 'DataPy', 'Histogram', 'Molclustpy_visualization_funcitons', 'Plotter', 'Spatial_Analysis', 'Cluster_comp', 'ClusterCrossLinking', 'Bound_fraction']
+__all__ = ['Average_z_pos',
+           'ClusTopology_ss',
+           'DataPy',
+           'Histogram',
+           'Molclustpy_visualization_funcitons',
+           'Plotter',
+           'Spatial_Analysis',
+           'Cluster_comp',
+           'ClusterCrossLinking',
+           'Bound_fraction',
+           'times_2_title']

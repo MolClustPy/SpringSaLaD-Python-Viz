@@ -16,7 +16,7 @@ def plotClusterDistCopy(path, time, sizeRange=[]):
         plt.axvline(aco, ls='dashed', lw=1.5, color='k')
         plt.xlabel('Cluster Size (molecules)')
         plt.ylabel('Fraction of total molecules')
-        plt.title(f'Cluster Size Distribution at {time} seconds')
+        plt.title(f'Cluster Size Distribution at {time} s')
         plt.legend()
         plt.show()
     else:
@@ -44,7 +44,7 @@ def plotClusterDistCopy(path, time, sizeRange=[]):
             plt.bar(xLab, foTM_binned, color='grey', ec='k')
             plt.xlabel('Cluster size range (molecules)')
             plt.ylabel('Fraction of total molecules')
-            plt.title(f'Binned Cluster Size Distribution at {time} seconds')
+            plt.title(f'Binned Cluster Size Distribution at {time} s')
             plt.ylim(0,1)
             plt.show()
         except:
@@ -65,6 +65,9 @@ def plotTimeCourseCopy(path, file_name, obsList=[]):
     
     _, numVar = mean_data.shape
     colNames = getColumns(txtfile)
+    print(numVar)
+    print(colNames)
+    print(mean_data)
     if len(obsList) == 0:
         for i in range(1, numVar):
             x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
@@ -80,6 +83,28 @@ def plotTimeCourseCopy(path, file_name, obsList=[]):
     plt.xlabel('Time (seconds)')
     plt.ylabel('Observable Counts')
     plt.title(f'{file_name} with bounds of 1 SD')
+    plt.show()
+
+def plotAverageZTimeCourse(mean_data, std_data, colNames, obsList=[], legend_right=True):    
+    _, numVar = mean_data.shape
+    if len(obsList) == 0:
+        for i in range(1, numVar):
+            x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
+            plt.plot(x,y, label=f'{colNames[i]}')
+            plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+    else:
+        for i in obsList:
+            x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
+            plt.plot(x,y, label=f'{colNames[i]}')
+            plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+
+    if not legend_right:
+        plt.legend()      
+    else:
+        plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left')
+    plt.xlabel('Time (seconds)')
+    plt.ylabel('Distance (nm)')
+    plt.title(f'Average Distance to Membrane (bounds of 1 SD)')
     plt.show()
 
 def plotBarGraph(xdata, yList, yLabels, title='', width=0.1, alpha=0.5):
@@ -123,10 +148,10 @@ def plotClusterCompositionCopy(path, time, specialClusters=[], width=0.1, alpha=
     if len(specialClusters) == 0:
         mols = df.columns[2:]
         freqList = [df[mol] for mol in mols]
-        plotBarGraph(csList, freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at time {time} s')
+        plotBarGraph(csList, freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at {time} s')
     else:
         idx = [i for i in range(len(csList)) if csList[i] in specialClusters]
         df2 = df.iloc[idx]
         mols = df.columns[2:]
         freqList = [df2[mol] for mol in mols]
-        plotBarGraph(df2['Clusters'], freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at time {time} s')
+        plotBarGraph(df2['Clusters'], freqList, mols, width=width, alpha=alpha, title=f'Cluster Composition at {time} s')

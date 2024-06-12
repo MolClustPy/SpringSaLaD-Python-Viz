@@ -242,7 +242,7 @@ class CrossLinkIndex:
         print("CS array:", len(CS_stat))
         print("SI_array:", len(SI_stat))
     
-    def plot_SI_stat(self, scatter=True, hist=False, fs=18, color='b', xticks=None, yticks=None):
+    def plot_SI_stat(self, scatter=True, hist=False, fs=18, color='b', xticks=None, yticks=None, title_str=''):
         path = self.simObj.getInpath() + "/pyStat/SI_stat"
         simfile = self.simObj.txtfile.split('/')[-1]
         name = simfile.replace(".txt","")
@@ -279,7 +279,7 @@ class CrossLinkIndex:
                 if not yticks == None:
                     plt.yticks(ticks=yticks)
                 #plt.title(name, fontsize=16)
-                plt.title("Cluster Bound Fraction Scatter Plot", fontsize=16)
+                plt.title("Cluster Bound Fraction Scatter Plot" + title_str, fontsize=16)
                 plt.legend(fontsize=16)
                 plt.show()
             if hist:
@@ -290,7 +290,7 @@ class CrossLinkIndex:
                 plt.xlabel("SI", fontsize=fs)
                 plt.ylabel("Frequency", fontsize=fs)
                 #plt.title(name)
-                plt.title("Cluster Bound Fraction Histogram Plot")
+                plt.title(f"Cluster Bound Fraction Histogram Plot" + title_str)
                 plt.legend()
             
             

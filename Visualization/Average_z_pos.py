@@ -2,7 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from data_locator import data_file_finder
 from input_file_extraction import read_input_file
+from Visualization.Molclustpy_visualization_funcitons import plotAverageZTimeCourse
+import statistics
 import numpy as np
+import os
 
 def average_Z(df, color):
     color_df = df[df['Color'] == color]
@@ -26,104 +29,106 @@ def site_info(colors_and_sites):
     print('\nList of indicies:')
     print(lines)
 
-def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=True, list_sites=False):
-    molecules, _= read_input_file(directory_path)
+def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_sites=False):
+    molecules, _ = read_input_file(directory_path)
+
+    new_path = data_file_finder(directory_path, ['viewer_files'], search_term='VIEW')
+    new_directory = os.path.split(new_path)[0]
+    num_runs = len(os.listdir(new_directory))
 
     z_values_list = []
     count = 0
-    #for run_num in range(5):
-    count = count + 1
-    path = data_file_finder(directory_path, ['viewer_files'], run = run_num)
+    for run_num in range(num_runs):
+        path = data_file_finder(directory_path, ['viewer_files'], run = run_num)
 
-    with open(path, "r") as f:
-        lines = f.readlines()
+        with open(path, "r") as f:
+            lines = f.readlines()
 
-    colors_and_sites = []
-    used_sites = []
+        colors_and_sites = []
+        used_sites = []
 
-    for molecule in molecules:
-        for line in molecule:
-            if line[0:4] == 'TYPE':
-                color = line.split()[8]
-                type = line.split()[2][1:-1]
-                moleclue_name = molecule[0].split()[1][1:-1]
-                if color not in (item[0] for item in colors_and_sites):
-                    colors_and_sites.append([color, [[moleclue_name, type]]])
-                    used_sites.append([moleclue_name, type])
-                elif [moleclue_name, type] not in used_sites:
-                    for i, item in enumerate(colors_and_sites):
-                        if item[0] == color:
-                            colors_and_sites[i][1].append([moleclue_name, type])
-                    used_sites.append([moleclue_name, type])
-                else:
-                    pass
+        for molecule in molecules:
+            for line in molecule:
+                if line[0:4] == 'TYPE':
+                    color = line.split()[8]
+                    type = line.split()[2][1:-1]
+                    moleclue_name = molecule[0].split()[1][1:-1]
+                    if color not in (item[0] for item in colors_and_sites):
+                        colors_and_sites.append([color, [[moleclue_name, type]]])
+                        used_sites.append([moleclue_name, type])
+                    elif [moleclue_name, type] not in used_sites:
+                        for i, item in enumerate(colors_and_sites):
+                            if item[0] == color:
+                                colors_and_sites[i][1].append([moleclue_name, type])
+                        used_sites.append([moleclue_name, type])
+                    else:
+                        pass
 
-    if list_sites and count == 0:
-        site_info(colors_and_sites)
-    
-    split_file = []
-    times = []
-    current_list = []
+        if list_sites and count == 0:
+            site_info(colors_and_sites)
 
-    for line in lines:
-        if line == 'SCENE\n':
-            split_file.append(current_list)
-            current_list = []
-        if line[0:2] == 'ID':
-            current_list.append(line.strip()[3:])
-        if line[0:11] == 'SceneNumber':
-            times.append(line.split('\t')[3][:-1])
-    split_file.append(current_list)
-    _ = split_file.pop(0)
-
-    for i, scene in enumerate(split_file):
-        for j, row in enumerate(scene):
-            split_file[i][j] = row.split('\t')
-
-    data_frame_list = []
-
-    column_list = ['ID', 'Unknown', 'Color', 'X', 'Y', 'Z']
-
-    for scene in split_file:
-        data_frame_list.append(pd.DataFrame(scene, columns=column_list))
-
-    color_list_full = [x[0] for x in colors_and_sites]
-    if indicies == []:
-        color_list = color_list_full
-    else:
-        color_list = []
-        for index in indicies:
-            color_list.append(colors_and_sites[index][0])
-
-    z_values = []
-
-    for color in color_list:
-        line = []
-        for data_frame in data_frame_list:
-            line.append(average_Z(data_frame,color))
-        z_values.append([color, line])
-    z_values_list.append(z_values)
+        count = count + 1
         
-    
-    '''avg_z_values = []
+        split_file = []
+        times = []
+        current_list = []
+
+        for line in lines:
+            if line == 'SCENE\n':
+                split_file.append(current_list)
+                current_list = []
+            if line[0:2] == 'ID':
+                current_list.append(line.strip()[3:])
+            if line[0:11] == 'SceneNumber':
+                times.append(line.split('\t')[3][:-1])
+        split_file.append(current_list)
+        _ = split_file.pop(0)
+
+        for i, scene in enumerate(split_file):
+            for j, row in enumerate(scene):
+                split_file[i][j] = row.split('\t')
+
+        data_frame_list = []
+
+        column_list = ['ID', 'Unknown', 'Color', 'X', 'Y', 'Z']
+
+        for scene in split_file:
+            data_frame_list.append(pd.DataFrame(scene, columns=column_list))
+
+        color_list_full = [x[0] for x in colors_and_sites]
+        if indicies == []:
+            color_list = color_list_full
+        else:
+            color_list = []
+            for index in indicies:
+                color_list.append(colors_and_sites[index][0])
+
+        z_values = []
+
+        for color in color_list:
+            line = []
+            for data_frame in data_frame_list:
+                line.append(average_Z(data_frame,color))
+            z_values.append([color, line])
+        z_values_list.append(z_values)
+        
+    avg_z_values = [[float(time) for time in times]]
+    std_z_values = [[float(time) for time in times]]
             
-    for i in range(len(colors_and_sites)):
+    for i in range(len(color_list)):
         tmp_list = []
         for run in z_values_list:
             tmp_list.append(run[i][1])
-        avg = [float(sum(col))/len(col) for col in zip(*tmp_list)]
-        avg_z_values.append([z_values[i][0], avg])'''
+        avg = [sum(col)/len(col) for col in zip(*tmp_list)]
+        std = [statistics.stdev(col) for col in zip(*tmp_list)]
+        avg_z_values.append(avg)
+        std_z_values.append(std)
 
-    #plt.figure(figsize=(8,5))
+    avg_arr = np.transpose(np.array(avg_z_values))
+    std_arr = np.transpose(np.array(std_z_values))
 
-    for line in z_values:
-        plt.plot([float(time) for time in times], line[1], color=line[0].replace('_','').lower())
-
-    plt.title('Average Distance to Membrane')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('Distance (nm)')
-
-    legend_list = []
+    
+    legend_list = ['Time']
 
     for color in color_list:
         for color_and_site in colors_and_sites:
@@ -136,9 +141,26 @@ def plot(directory_path, indicies = [], run_num=0, verbose=False, legend_right=T
                         legend_entry = legend_entry + f'{site[1]}, '
                 legend_list.append(legend_entry[:-2])
 
+    
+    
+    plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right)
+
+    #plt.figure(figsize=(8,5))
+    '''
+    for line in avg_z_values:
+        plt.plot([float(time) for time in times], line[1], color=line[0].replace('_','').lower())
+
+    plt.title('Average Distance to Membrane')
+    plt.xlabel('Time (seconds)')
+    plt.ylabel('Distance (nm)')
+
+    
+
     if legend_right:
         plt.legend(legend_list, bbox_to_anchor=(1.02, 1), loc='upper left')
     else:
         plt.legend(legend_list)
 
     plt.show()
+    '''
+    

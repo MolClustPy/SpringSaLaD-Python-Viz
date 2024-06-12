@@ -1,5 +1,6 @@
 import numpy as np
 from Visualization.ClusterCrossLinking import CrossLinkIndex
+from Visualization.times_2_title import *
 from data_locator import *
 
 def plot(search_directory, times, hist=False):     
@@ -18,6 +19,8 @@ def plot(search_directory, times, hist=False):
 
     CLI = CrossLinkIndex(txtfile, ss_timeSeries=times)
 
+    title_str = times_2_title(times)
+
     print(CLI)
     #d = cl.mapSiteToMolecule()
     #rif = ReadInputFile(txtfile)
@@ -25,5 +28,5 @@ def plot(search_directory, times, hist=False):
     #print(len(cl.getActiveSiteIDs())) 
     CLI.getSI(vf) 
     CLI.getSI_stat() 
-    CLI.plot_SI_stat(color='k', fs=16, xticks=None, yticks=None, hist=hist)
+    CLI.plot_SI_stat(color='k', fs=16, xticks=None, yticks=None, hist=hist, title_str=title_str)
     #CLI.plot_SI_stat(color='c', xticks=None, yticks=None)

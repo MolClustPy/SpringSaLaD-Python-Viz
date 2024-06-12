@@ -217,8 +217,8 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
                     state2 = f' (of state {split_reaction[13]})'
 
                 if kinetics:
-                    on_rate = f'at a rate of {split_reaction[14].split()[1]} uM-1.s-1'
-                    off_rate = f'and unbinds at a rate of {str(split_reaction[14].split()[3])} s-1'
+                    on_rate = f'\n\tOn rate: {split_reaction[14].split()[1]} uM-1.s-1,'
+                    off_rate = f'off rate: {str(split_reaction[14].split()[3])} s-1'
                     #if float(split_reaction[14].split()[3]) != 0.0:
                 else:
                     on_rate = off_rate = ''
