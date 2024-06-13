@@ -1,0 +1,6 @@
+Cluster Size 	 ['R', 'Adapter'] : frequency
+
+  2		1,1 : 100.00%	
+
+  3		2,1 : 100.00%	
+

@@ -65,9 +65,6 @@ def plotTimeCourseCopy(path, file_name, obsList=[]):
     
     _, numVar = mean_data.shape
     colNames = getColumns(txtfile)
-    print(numVar)
-    print(colNames)
-    print(mean_data)
     if len(obsList) == 0:
         for i in range(1, numVar):
             x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
