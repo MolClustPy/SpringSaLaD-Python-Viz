@@ -6,11 +6,12 @@ from Visualization.Molclustpy_visualization_funcitons import plotAverageZTimeCou
 import statistics
 import numpy as np
 import os
+import csv
 
-def average_Z(df, color):
-    color_df = df[df['Color'] == color]
+def average_Z(df, desired_IDs):
+    color_df = df[df['ID'].isin(desired_IDs)]
     return color_df['Z'].astype(float).mean()
-
+'''
 def site_info(colors_and_sites):
     print('Sites:')
     i_max = 0
@@ -28,9 +29,33 @@ def site_info(colors_and_sites):
 
     print('\nList of indicies:')
     print(lines)
+'''
 
-def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_sites=False):
-    molecules, _ = read_input_file(directory_path)
+def site_info(name_list):
+    print('Sites:')
+    for i, name in enumerate(name_list):
+        print(f'{i}: {name[1]} of {name[0]}')
+    lines = []
+    for i in range(0, len(name_list)):
+        lines.append(i)
+
+    print('\nList of indicies:')
+    print(lines)
+
+
+def molecule_info(name_list):
+    print('Molecules:')
+    for i, name in enumerate(name_list):
+        print(f'{i}: {name}')
+    lines = []
+    for i in range(0, len(name_list)):
+        lines.append(i)
+
+    print('\nList of indicies:')
+    print(lines)
+
+def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_options=False, fill=True, mode='mol'):
+    #molecules, _ = read_input_file(directory_path)
 
     new_path = data_file_finder(directory_path, ['viewer_files'], search_term='VIEW')
     new_directory = os.path.split(new_path)[0]
@@ -40,13 +65,46 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
     count = 0
     for run_num in range(num_runs):
         path = data_file_finder(directory_path, ['viewer_files'], run = run_num)
+        sites_path = data_file_finder(directory_path, ['data', f'Run{run_num}'], search_term='SiteIDs.csv')
 
-        with open(path, "r") as f:
-            lines = f.readlines()
+        data_dict = {}
 
-        colors_and_sites = []
-        used_sites = []
+        with open(sites_path, mode='r') as file:
+            csv_reader = csv.reader(file)
 
+            for row in csv_reader:
+                key = row[0]
+                value = row[1].split()
+                value = [value[0], value[4]]
+                data_dict[key] = value
+        file.close()
+
+        with open(path, "r") as file:
+            lines = file.readlines()
+        file.close()
+
+        #colors_and_sites = []
+        #used_sites = []
+        moleclue_names = []
+        site_names = []
+
+        for key in data_dict:
+            if data_dict[key][0] not in moleclue_names:
+                moleclue_names.append(data_dict[key][0])
+
+        for key in data_dict:
+            if data_dict[key] not in site_names:
+                site_names.append(data_dict[key])
+
+        if indicies == []:
+            if mode=='mol':
+                for i in range(len(moleclue_names)):
+                    indicies.append(i)
+            else:
+                for i in range(len(site_names)):
+                    indicies.append(i)
+                    
+        '''
         for molecule in molecules:
             for line in molecule:
                 if line[0:4] == 'TYPE':
@@ -63,9 +121,13 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
                         used_sites.append([moleclue_name, type])
                     else:
                         pass
+        '''
 
-        if list_sites and count == 0:
-            site_info(colors_and_sites)
+        if list_options and count == 0:
+            if mode == 'mol':
+                molecule_info(moleclue_names)
+            else:
+                site_info(site_names)
 
         count = count + 1
         
@@ -90,11 +152,12 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
 
         data_frame_list = []
 
-        column_list = ['ID', 'Unknown', 'Color', 'X', 'Y', 'Z']
+        column_list = ['ID', 'Radius', 'Color', 'X', 'Y', 'Z']
 
         for scene in split_file:
             data_frame_list.append(pd.DataFrame(scene, columns=column_list))
 
+        '''
         color_list_full = [x[0] for x in colors_and_sites]
         if indicies == []:
             color_list = color_list_full
@@ -102,23 +165,42 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
             color_list = []
             for index in indicies:
                 color_list.append(colors_and_sites[index][0])
-
+        '''
+        
         z_values = []
+        desired_IDs = []
+        legend_list = ['Time']
+        if mode == 'mol':    
+            for index in indicies:
+                current_len = len(desired_IDs)
+                desired_IDs.append([key for key, value in data_dict.items() if value[0] == moleclue_names[index]])
+                if len(desired_IDs) != current_len:
+                    legend_list.append(moleclue_names[index])
+        else:
+            for index in indicies:
+                current_len = len(desired_IDs)
+                desired_IDs.append([key for key, value in data_dict.items() if value[0] == site_names[index][0] and value[1] == site_names[index][1]])
+                if len(desired_IDs) != current_len:
+                    if verbose:
+                        legend_list.append(f'Site {site_names[index][1]} of {site_names[index][0]}')
+                    else:
+                        legend_list.append(site_names[index][1])
+                        
 
-        for color in color_list:
+        for i in range(len(indicies)):
             line = []
             for data_frame in data_frame_list:
-                line.append(average_Z(data_frame,color))
-            z_values.append([color, line])
+                line.append(average_Z(data_frame,desired_IDs[i]))
+            z_values.append(line)
         z_values_list.append(z_values)
-        
+
     avg_z_values = [[float(time) for time in times]]
     std_z_values = [[float(time) for time in times]]
             
-    for i in range(len(color_list)):
+    for i in range(len(indicies)):
         tmp_list = []
         for run in z_values_list:
-            tmp_list.append(run[i][1])
+            tmp_list.append(run[i])
         avg = [sum(col)/len(col) for col in zip(*tmp_list)]
         std = [statistics.stdev(col) for col in zip(*tmp_list)]
         avg_z_values.append(avg)
@@ -127,9 +209,7 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
     avg_arr = np.transpose(np.array(avg_z_values))
     std_arr = np.transpose(np.array(std_z_values))
 
-    
-    legend_list = ['Time']
-
+    '''
     for color in color_list:
         for color_and_site in colors_and_sites:
             if color == color_and_site[0]:
@@ -140,10 +220,10 @@ def plot(directory_path, indicies = [], verbose=False, legend_right=True, list_s
                     else:
                         legend_entry = legend_entry + f'{site[1]}, '
                 legend_list.append(legend_entry[:-2])
+    '''
+    
 
-    
-    
-    plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right)
+    plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right, fill=fill)
 
     #plt.figure(figsize=(8,5))
     '''

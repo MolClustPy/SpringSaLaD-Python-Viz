@@ -145,7 +145,6 @@ Annotation: 'BindingReaction0'
 {
 }
 
-#Added Manually
 *** SIMULATION STATE ***
 
 Runs: 5

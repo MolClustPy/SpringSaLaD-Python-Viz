@@ -82,18 +82,24 @@ def plotTimeCourseCopy(path, file_name, obsList=[]):
     plt.title(f'{file_name} with bounds of 1 SD')
     plt.show()
 
-def plotAverageZTimeCourse(mean_data, std_data, colNames, obsList=[], legend_right=True):    
+def plotAverageZTimeCourse(mean_data, std_data, colNames, obsList=[], legend_right=True, fill=False):    
     _, numVar = mean_data.shape
     if len(obsList) == 0:
         for i in range(1, numVar):
             x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
             plt.plot(x,y, label=f'{colNames[i]}')
-            plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+            if fill:
+                plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+            else:
+                pass
     else:
         for i in obsList:
             x, y, yerr = mean_data[:,0], mean_data[:,int(i)], std_data[:,int(i)]
             plt.plot(x,y, label=f'{colNames[i]}')
-            plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+            if fill:
+                plt.fill_between(x, y-yerr, y+yerr, alpha=0.2)
+            else:
+                pass
 
     if not legend_right:
         plt.legend()      

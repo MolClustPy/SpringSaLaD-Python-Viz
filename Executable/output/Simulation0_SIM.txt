@@ -145,3 +145,12 @@ Annotation: 'BindingReaction0'
 {
 }
 
+*** SIMULATION STATE ***
+
+Runs: 5
+Parallel: false
+SimultaneousRuns: 1
+Aborted: false
+IsRunning: false
+HasResults: false
+RunOnCluster: false

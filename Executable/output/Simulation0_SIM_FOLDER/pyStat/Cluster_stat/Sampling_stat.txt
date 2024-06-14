@@ -1,3 +1,0 @@
-Number of runs : 5
-
-Steady state time points (ms): [10.0]
