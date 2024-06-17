@@ -51,13 +51,14 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
             site_data.append(site)
 
         #Sites (default ordering)
+        '''
         print(f'\nIt consists of {total_sites} connected sites:')
         for site in site_data:
             print(f'Site {site[0][5:]} ({site[1]}) of type "{site[2]}"')
             pass
+        '''
 
         #Sites (grouped by type)
-        '''
         sites_reordered = []
         site_type_names = []  
         for site in site_data:
@@ -73,7 +74,6 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
         
         print(f'\nThis molecule consists of {total_sites} connected sites:')
         for reordered_site in sites_reordered:
-            str2 = 'Placeholder 2'
             location_list = list(reordered_site[1])
             site_list = list(reordered_site[2])
             for index in location_list:
@@ -86,9 +86,11 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
                     addStr = addStr + f'{location_list[2]} membrane, '
             addStr2 = ''
             for index in site_list:
-                addStr2 = addStr2 + index + ', '
-            print(f'Type {reordered_site[0]}: {addStr[:-2]} sites ({addStr2[:-2]})')
-        '''
+                addStr2 = addStr2 + 'Site' + index[4:] + ', '
+            if ',' in addStr2[:-2]:
+                print(f'Type {reordered_site[0]}: {addStr[:-2]} sites ({addStr2[:-2]})')
+            else:
+                print(f'Type {reordered_site[0]}: {addStr[:-2]} ({addStr2[:-2]})')        
         
         total_links = int(split_general_info[10])
         link_data = []
