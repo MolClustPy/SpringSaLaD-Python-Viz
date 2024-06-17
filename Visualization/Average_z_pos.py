@@ -54,8 +54,20 @@ def molecule_info(name_list):
     print('\nList of indicies:')
     print(lines)
 
+def color_info(name_list):
+    
+    print('Sites with the same color:')
+    for i, name in enumerate(name_list):
+        print(f'{i}: {name}')
+    lines = []
+    for i in range(0, len(name_list)):
+        lines.append(i)
+
+    print('\nList of indicies:')
+    print(lines)
+
 def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_options=False, fill=True, mode='mol'):
-    #molecules, _ = read_input_file(directory_path)
+    molecules, _ = read_input_file(directory_path)
 
     new_path = data_file_finder(directory_path, ['viewer_files'], search_term='VIEW')
     new_directory = os.path.split(new_path)[0]
@@ -83,8 +95,8 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
             lines = file.readlines()
         file.close()
 
-        #colors_and_sites = []
-        #used_sites = []
+        colors_and_sites = []
+        used_sites = []
         moleclue_names = []
         site_names = []
 
@@ -96,15 +108,6 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
             if data_dict[key] not in site_names:
                 site_names.append(data_dict[key])
 
-        if indicies == []:
-            if mode=='mol':
-                for i in range(len(moleclue_names)):
-                    indicies.append(i)
-            else:
-                for i in range(len(site_names)):
-                    indicies.append(i)
-                    
-        '''
         for molecule in molecules:
             for line in molecule:
                 if line[0:4] == 'TYPE':
@@ -121,13 +124,25 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
                         used_sites.append([moleclue_name, type])
                     else:
                         pass
-        '''
+
+        if indicies == []:
+            if mode=='mol':
+                for i in range(len(moleclue_names)):
+                    indicies.append(i)
+            elif mode=='site':
+                for i in range(len(site_names)):
+                    indicies.append(i)
+            else:
+                for i in range(len(colors_and_sites)):
+                    indicies.append(i)
 
         if list_options and count == 0:
             if mode == 'mol':
                 molecule_info(moleclue_names)
-            else:
+            elif mode == 'site':
                 site_info(site_names)
+            else:
+                pass
 
         count = count + 1
         
@@ -156,16 +171,14 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
 
         for scene in split_file:
             data_frame_list.append(pd.DataFrame(scene, columns=column_list))
-
-        '''
+        
         color_list_full = [x[0] for x in colors_and_sites]
+        color_list = []
         if indicies == []:
             color_list = color_list_full
-        else:
-            color_list = []
+        else: 
             for index in indicies:
                 color_list.append(colors_and_sites[index][0])
-        '''
         
         z_values = []
         desired_IDs = []
@@ -176,7 +189,7 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
                 desired_IDs.append([key for key, value in data_dict.items() if value[0] == moleclue_names[index]])
                 if len(desired_IDs) != current_len:
                     legend_list.append(moleclue_names[index])
-        else:
+        elif mode == 'site':
             for index in indicies:
                 current_len = len(desired_IDs)
                 desired_IDs.append([key for key, value in data_dict.items() if value[0] == site_names[index][0] and value[1] == site_names[index][1]])
@@ -185,7 +198,35 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
                         legend_list.append(f'Site {site_names[index][1]} of {site_names[index][0]}')
                     else:
                         legend_list.append(site_names[index][1])
-                        
+        else:
+            desired_sites = []
+            for color in colors_and_sites:
+                tmp=[]
+                for site in color[1]:
+                    for key, value in data_dict.items():
+                        if value == site and site not in tmp:
+                            tmp.append(site)
+                desired_sites.append(tmp)
+            for color in desired_sites:
+                tmp=[]
+                for site in color:
+                    tmp.extend([key for key, value in data_dict.items() if value == site])
+                desired_IDs.append(tmp)
+            for color in color_list:
+                for color_and_site in colors_and_sites:
+                    if color == color_and_site[0]:
+                        legend_entry = ''
+                        item_list = []
+                        for site in color_and_site[1]:
+                            item_list.append(site)
+                        item_list.sort()
+                        for site in item_list:
+                            if verbose:
+                                legend_entry = legend_entry + f'Site {site[1]} of {site[0]}, '
+                            else:
+                                legend_entry = legend_entry + f'{site[1]}, ' 
+                        legend_list.append(legend_entry[:-2])
+            
 
         for i in range(len(indicies)):
             line = []
@@ -193,6 +234,25 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
                 line.append(average_Z(data_frame,desired_IDs[i]))
             z_values.append(line)
         z_values_list.append(z_values)
+
+    if mode == 'color':
+        display_colors = []
+        for color in color_list_full:
+            for color_and_site in colors_and_sites:
+                if color == color_and_site[0]:
+                    legend_entry = ''
+                    item_list = []
+                    for site in color_and_site[1]:
+                        item_list.append(site)
+                    item_list.sort()
+                    for site in item_list:
+                        if verbose:
+                            legend_entry = legend_entry + f'Site {site[1]} of {site[0]}, '
+                        else:
+                            legend_entry = legend_entry + f'{site[1]}, ' 
+                    display_colors.append(legend_entry[:-2])
+        color_info(display_colors)
+    
 
     avg_z_values = [[float(time) for time in times]]
     std_z_values = [[float(time) for time in times]]
@@ -209,38 +269,40 @@ def plot(directory_path, indicies=[], verbose=False, legend_right=True, list_opt
     avg_arr = np.transpose(np.array(avg_z_values))
     std_arr = np.transpose(np.array(std_z_values))
 
-    '''
-    for color in color_list:
-        for color_and_site in colors_and_sites:
-            if color == color_and_site[0]:
-                legend_entry = ''
-                for site in color_and_site[1]:
-                    if verbose:
-                        legend_entry = legend_entry + f'Site {site[1]} of {site[0]}, '
-                    else:
-                        legend_entry = legend_entry + f'{site[1]}, '
-                legend_list.append(legend_entry[:-2])
-    '''
-    
 
-    plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right, fill=fill)
+    '''
+    if mode == 'color':
+        print(avg_z_values)
+        for color in color_list:
+            for color_and_site in colors_and_sites:
+                if color == color_and_site[0]:
+                    legend_entry = ''
+                    for site in color_and_site[1]:
+                        if verbose:
+                            legend_entry = legend_entry + f'Site {site[1]} of {site[0]}, '
+                        else:
+                            legend_entry = legend_entry + f'{site[1]}, '
+                    legend_list.append(legend_entry[:-2])
+        for line in avg_z_values:
+            plt.plot([float(time) for time in times], line[1], color=line[0].replace('_','').lower())
+
+        plt.title('Average Distance to Membrane')
+        plt.xlabel('Time (seconds)')
+        plt.ylabel('Distance (nm)')
+
+        if legend_right:
+            plt.legend(legend_list, bbox_to_anchor=(1.02, 1), loc='upper left')
+        else:
+            plt.legend(legend_list)
+
+        plt.show()
+    else:
+        plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right, fill=fill)
+    '''
+
+    plotAverageZTimeCourse(avg_arr, std_arr, legend_list, legend_right=legend_right, fill=fill, colors=color_list)
 
     #plt.figure(figsize=(8,5))
-    '''
-    for line in avg_z_values:
-        plt.plot([float(time) for time in times], line[1], color=line[0].replace('_','').lower())
-
-    plt.title('Average Distance to Membrane')
-    plt.xlabel('Time (seconds)')
-    plt.ylabel('Distance (nm)')
 
     
-
-    if legend_right:
-        plt.legend(legend_list, bbox_to_anchor=(1.02, 1), loc='upper left')
-    else:
-        plt.legend(legend_list)
-
-    plt.show()
-    '''
     
