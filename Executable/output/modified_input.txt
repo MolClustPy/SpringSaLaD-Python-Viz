@@ -16,7 +16,7 @@ Partition Nz: 10
 
 *** MOLECULES ***
 
-MOLECULE: "NWASP" Intracellular Number 2 Site_Types 5 Total_Sites 16 Total_Links 15 is2D false
+MOLECULE: "NWASP" Intracellular Number 1 Site_Types 5 Total_Sites 16 Total_Links 15 is2D false
 {
      TYPE: Name "dom1" Radius 2.00000 D 2.000 Color ORANGE STATES "State0" 
      TYPE: Name "linker" Radius 1.00000 D 2.000 Color PINK STATES "State0" 
@@ -92,7 +92,7 @@ MOLECULE: "NWASP" Intracellular Number 2 Site_Types 5 Total_Sites 16 Total_Links
      Initial_Positions: Random
 }
 
-MOLECULE: "NCK" Intracellular Number 2 Site_Types 5 Total_Sites 5 Total_Links 4 is2D false
+MOLECULE: "NCK" Intracellular Number 1 Site_Types 5 Total_Sites 5 Total_Links 4 is2D false
 {
      TYPE: Name "SH3_1" Radius 1.10000 D 2.000 Color MAGENTA STATES "State0" 
      TYPE: Name "SH3_2" Radius 1.25000 D 2.000 Color MAGENTA STATES "State0" 
@@ -124,7 +124,7 @@ MOLECULE: "NCK" Intracellular Number 2 Site_Types 5 Total_Sites 5 Total_Links 4 
      Initial_Positions: Random
 }
 
-MOLECULE: "NEPHRIN" Membrane Number 2 Site_Types 7 Total_Sites 8 Total_Links 7 is2D false
+MOLECULE: "NEPHRIN" Membrane Number 1 Site_Types 7 Total_Sites 8 Total_Links 7 is2D false
 {
      TYPE: Name "dom1" Radius 1.50000 D 1.000 Color CYAN STATES "State0" 
      TYPE: Name "Anchor" Radius 1.00000 D 0.050 Color GRAY STATES "Anchor" 
@@ -191,10 +191,10 @@ MOLECULE: NEPHRIN null
 *** BIMOLECULAR BINDING REACTIONS ***
 
 'pY_SH2 binding_1' 'NEPHRIN' : 'pTyr_1_2' : 'p' + 'NCK' : 'SH2' : 'Any_State' kon 1 koff 1 Bond_Length 1.0
-'PRM_SH3_1' 'NCK' : 'SH3_1' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 2 koff 2 Bond_Length 1.0
-'PRM_SH3_2' 'NCK' : 'SH3_2' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 3 koff 3 Bond_Length 1.0
-'PRM_SH3_3' 'NCK' : 'SH3_3' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 4 koff 4 Bond_Length 1.0
-'pY_SH2_binding_2' 'NEPHRIN' : 'pTyr_3' : 'p' + 'NCK' : 'SH2' : 'Any_State' kon 5 koff 5 Bond_Length 1.0
+'PRM_SH3_1' 'NCK' : 'SH3_1' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 1 koff 2 Bond_Length 1.0
+'PRM_SH3_2' 'NCK' : 'SH3_2' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 1 koff 3 Bond_Length 1.0
+'PRM_SH3_3' 'NCK' : 'SH3_3' : 'Any_State' + 'NWASP' : 'PRM' : 'Any_State' kon 1 koff 4 Bond_Length 1.0
+'pY_SH2_binding_2' 'NEPHRIN' : 'pTyr_3' : 'p' + 'NCK' : 'SH2' : 'Any_State' kon 1 koff 5 Bond_Length 1.0
 
 *** MOLECULE COUNTERS ***
 

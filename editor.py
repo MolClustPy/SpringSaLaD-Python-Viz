@@ -5,7 +5,8 @@ from Project_reader import *
 from data_locator import *
 import os
 
-def edit_input_file(search_directory, counts=[], on_rate=[], off_rate=[]):
+#add output path options
+def edit_input_file(search_directory, output_path='', counts=[], on_rate=[], off_rate=[]):
 
     path = find_txt_file(search_directory)
 
@@ -60,7 +61,20 @@ def edit_input_file(search_directory, counts=[], on_rate=[], off_rate=[]):
     #file_name = "output.txt"
     #file_path = os.path.join(search_directory, file_name)
 
-    with open(path, 'w', encoding='utf-8') as output_file:
-        output_file.writelines(data)
+    #warn if the input file is going to be overwritten
+    
+    #os.makedirs(output_path, exist_ok=True)
 
-    output_file.close()
+    if output_path=='':
+        output_path=path
+        ans = input(f'Warning, {path} is about to be overwritten, are you sure you want to continue? (Y/N)')
+        if ans.upper() == 'Y':
+            with open(output_path, 'w+', encoding='utf-8') as file:
+                file.writelines(data)
+            file.close()
+        else:
+            print('Edit operation canceled')
+    else:
+        with open(output_path, 'w+', encoding='utf-8') as file:
+            file.writelines(data)
+        file.close()

@@ -4,7 +4,7 @@ from data_locator import *
 from input_file_extraction import *
 
 
-def Describe_input_file(search_directory, reactions=False, kinetics=False):
+def Describe_input_file(search_directory, links=False, reactions=False, kinetics=False):
     molecules, split_file = read_input_file(search_directory)
 
     print('Moleclues:\n')
@@ -72,7 +72,7 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
                         reordered_site[1] = reordered_site[1] + location2vec(site[1])
                         reordered_site[2].append(site[0])
         
-        print(f'\nThis molecule consists of {total_sites} connected sites:')
+        print(f'\nIt consists of {total_sites} connected sites:')
         for reordered_site in sites_reordered:
             location_list = list(reordered_site[1])
             site_list = list(reordered_site[2])
@@ -139,13 +139,15 @@ def Describe_input_file(search_directory, reactions=False, kinetics=False):
         print('\n')
         '''
 
+
         #All links for all sites
-        print(f'\nIt has {total_links} total links between sites:')
-        for link in link_lists:
-            site_str = ''
-            for site in link[1]:
-                site_str = f'{site_str} site {site},'
-            print(f'Site {link[0]} is connected to{site_str[:-1]}')
+        if links:
+            print(f'\nIt has {total_links} total links between sites:')
+            for link in link_lists:
+                site_str = ''
+                for site in link[1]:
+                    site_str = f'{site_str} site {site},'
+                print(f'Site {link[0]} is connected to{site_str[:-1]}')
         print('------------------------------------------------------------------------------------------------------------\n')
 
     if reactions:

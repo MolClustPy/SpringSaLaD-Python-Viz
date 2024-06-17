@@ -5,6 +5,7 @@ import pandas as pd
 
 #Finds the first txt file in the search_directory
 def find_txt_file(search_directory):
+    #TODO Add warning if more than one txt file is found
     for file in os.listdir(search_directory):
         if file.endswith(".txt"):
             return os.path.join(search_directory, file)
