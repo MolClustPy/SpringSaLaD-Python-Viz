@@ -203,6 +203,61 @@ class CrossLinkIndex:
             return CS_list, SI_list
         else:
             return None
+        
+    def getRadialDist(self, viewerfile):
+        # SI : saturation index = bound binding sites / total binding sites
+        CS_list = [] # list of clusters
+        SI_list = []
+        msm = self.mapSiteToMolecule()
+        completeTrajectory = False
+        tps, index_pairs = self.getSteadyStateFrameIndices(viewerfile)
+        RS_list = self.getReactiveSiteIDs()
+        
+        if len(tps) != self.N_frames + 1:
+            #print("N_frames : ", len(tps))
+            pass
+        else:
+            completeTrajectory = True
+            #print("frames : ", len(tps))
+            with open(viewerfile, 'r') as infile:
+                lines = infile.readlines()
+                for i,j in index_pairs:
+                    current_frame = lines[i:j]
+                    #print(current_frame)
+                    cluster_index = 0
+                    Ids, Links = self.getBindingStatus(current_frame)
+                    mIds, mLinks = [msm[k] for k in Ids], [(msm[k1], msm[k2]) for k1,k2 in Links]
+                    sG = self.createGraph(Ids, Links)
+                    mG = self.createGraph(mIds, mLinks)
+                    #G.subgraph(c) for c in connected_components(G)
+                    for sg, mg in zip(connected_component_subgraphs(sG), connected_component_subgraphs(mG)):
+                        #print(f"cluster {cluster_index}")
+                        cluster_index += 1
+                        sites = list(sg.nodes)
+                        mols = list(mg.nodes)
+                        site_pairs = list(sg.edges())
+                        if len(mols) == 1:
+                            pass  # excluding the monomers
+                        else:
+                            RSites = [s for s in sites if s in RS_list]
+                            tmpList = [(id1,id2) for id1,id2 in site_pairs if msm[id1] != msm[id2]]
+                            bound_sites = set([id1 for id1,id2 in tmpList] + [id2 for id1,id2 in tmpList])
+                            bound_Rsites = [bs for bs in bound_sites if bs in RSites]
+                            freeSites = len(RSites) - len(bound_Rsites)
+                            #print('Rsites')
+                            #print(RSites)
+                            #print('Bound sites')
+                            #print(bound_sites)
+                            #print()
+                            SI = len(bound_Rsites)/len(RSites) 
+                            SI_list.append(SI)
+                            CS_list.append(len(mols))
+        if completeTrajectory:
+            return CS_list, SI_list
+        else:
+            return None
+
+
     @displayExecutionTime
     def getSI_stat(self):
         print("Calculating SI ...")
